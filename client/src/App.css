@@ -1,0 +1,368 @@
+/* App.css */
+
+
+.NavLink {
+  display: inline-block;
+  padding: 10px 20px;
+  color: white;
+  background-color: cornflowerblue;
+  text-decoration: none;
+  margin-right: 10px; /* Adjust as needed */
+}
+
+.NavLink:hover {
+  background-color: skyblue; /* Change color on hover */
+}
+
+
+/* Home.css */
+
+.Framework {
+  background-color: white;
+  border: 1px solid black;
+  padding: 10px;
+  margin-bottom: 10px;
+  cursor: pointer;
+  color: black; /* Set font color to black */
+}
+
+.title {
+  color: black;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.body, .footer {
+  color: black; /* Set font color to black */
+}
+
+.footer {
+  font-style: italic;
+}
+
+/* Framework.css */
+
+.solo_Framework {
+  background-color: transparent; /* Remove background color */
+  margin-bottom: 20px;
+}
+
+.framework_title {
+  color: black;
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.framework_body {
+  color: black;
+  margin-bottom: 20px;
+}
+
+.Section {
+  background-color: white;
+  border: 1px solid cornflowerblue;
+  padding: 10px;
+  margin-bottom: 10px;
+  cursor: pointer;
+}
+
+.section_title {
+  color: black;
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.section_body {
+  color: black;
+}
+
+
+.section_body {
+  color: black;
+}
+
+/* Section.css */
+
+.solo_Section {
+  background-color: transparent; /* Remove background color */
+  margin-bottom: 20px;
+}
+
+.section_title {
+  color: black;
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.section_body {
+  color: black;
+  margin-bottom: 20px;
+}
+
+.SubSection {
+  background-color: white;
+  border: 1px solid cornflowerblue;
+  padding: 10px;
+  margin-bottom: 10px;
+  cursor: pointer;
+}
+
+.SubSection_title {
+  color: black;
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.SubSection_body {
+  color: black;
+}
+
+
+/* SubSection.css */
+
+.solo_SubSection {
+  background-color: transparent; /* Remove background color */
+  margin-bottom: 20px;
+}
+
+.subsection_title {
+  color: black;
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.subsection_body {
+  color: black;
+  margin-bottom: 20px;
+}
+
+.Requirement {
+  background-color: white;
+  border: 1px solid cornflowerblue;
+  padding: 10px;
+  margin-bottom: 10px;
+  cursor: pointer;
+}
+
+.Requirement_title {
+  color: black;
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.Requirement_body {
+  color: black;
+}
+
+
+/* Requirement.css */
+
+.solo_Requirement {
+  background-color: transparent; /* Remove background color */
+  margin-bottom: 20px;
+}
+
+.requirement_title {
+  color: black;
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.requirement_body {
+  color: black;
+  margin-bottom: 20px;
+}
+
+.SubRequirement {
+  background-color: white;
+  border: 1px solid cornflowerblue;
+  padding: 10px;
+  margin-bottom: 10px;
+  cursor: pointer;
+}
+
+.SubRequirement_title {
+  color: black;
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.SubRequirement_body {
+  color: black;
+}
+
+/* SubRequirement.css */
+
+.solo_SubRequirement {
+  background-color: transparent; /* Remove background color */
+  margin-bottom: 20px;
+}
+
+.subrequirement_title {
+  color: black;
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.subrequirement_body {
+  color: black;
+  margin-bottom: 20px;
+}
+
+.Question {
+  background-color: white;
+  border: 1px solid cornflowerblue;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.Question_body {
+  color: black;
+}
+
+/* login.css */
+
+/* Style for the Login page */
+.LoginPage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+/* Style for the form container */
+.formContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 300px;
+  padding: 20px;
+  border: 1px solid lightgray;
+  border-radius: 5px;
+  background-color: #f8f9fa; /* Light gray background */
+}
+
+/* Style for form labels */
+label {
+  margin-bottom: 5px;
+}
+
+/* Style for form input fields */
+#usernameLogin {
+  width: 100%;
+  margin-bottom: 10px;
+  padding: 8px;
+  border: 1px solid #ced4da; /* Gray border */
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+#passwordLogin {
+  width: 100%;
+  margin-bottom: 10px;
+  padding: 8px;
+  border: 1px solid #ced4da; /* Gray border */
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+/* Style for error messages */
+.error {
+  color: red;
+  margin-bottom: 10px;
+}
+
+/* Style for confirmation messages */
+.confirmation {
+  color: green;
+  margin-bottom: 10px;
+}
+
+/* Style for the response container */
+.Response {
+  margin-top: 20px;
+  text-align: center;
+}
+
+
+
+/* Registration.css*/
+
+/* Style for the Registration page */
+.RegistrationPage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+/* Style for the form container */
+.formContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 300px;
+  padding: 20px;
+  border: 1px solid lightgray;
+  border-radius: 5px;
+  background-color: #f8f9fa; /* Light gray background */
+}
+
+/* Style for form labels */
+label {
+  margin-bottom: 5px;
+}
+
+/* Style for form input fields */
+#usernameRegistration {
+  width: 100%;
+  margin-bottom: 10px;
+  padding: 8px;
+  border: 1px solid #ced4da; /* Gray border */
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+#emailRegistration {
+  width: 100%;
+  margin-bottom: 10px;
+  padding: 8px;
+  border: 1px solid #ced4da; /* Gray border */
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+#passwordRegistration {
+  width: 100%;
+  margin-bottom: 10px;
+  padding: 8px;
+  border: 1px solid #ced4da; /* Gray border */
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+/* Style for error messages */
+.error {
+  color: red;
+  margin-bottom: 10px;
+}
+
+/* Style for confirmation messages */
+.confirmation {
+  color: green;
+  margin-bottom: 10px;
+}
+
+/* Style for the response container */
+.Response {
+  margin-top: 20px;
+  text-align: center;
+}
