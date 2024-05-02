@@ -37,8 +37,15 @@ function Home() {
             .catch((error) => {
                 console.log(frameworkId)
                 console.error("Error fetching instances:", error);
-            });
+            });     
     };
+
+    const handleClickInstance = (frameworkId, instanceID) => {
+        sessionStorage.setItem('selectedInstanceID', instanceID);
+        navigate(`/section/${frameworkId}`);
+    };
+
+
     return (
         <div>
             {listOfFrameworks.map((value, key) => {
@@ -52,7 +59,7 @@ function Home() {
                             {listOfInstances.map((instance) => 
                                 // Check if the instance's frameworkId matches the selected frameworkId
                                 (instance.FrameworkID === value.ID && (
-                                    <div key={instance.ID} className="instanceContainer">
+                                    <div key={instance.ID} className="instanceContainer" onClick={() => handleClickInstance(value.ID,instance.ID)}>
                                         <div className= "instanceTitle">{instance.Title}</div>
                                         <div className= "instanceDescription">Descrição: {instance.Description}</div>
                                     <div className= "instanceClass">Classe: {instance.Class}</div>
