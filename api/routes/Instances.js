@@ -1,12 +1,14 @@
 const express = require("express");
 const router = express.Router();
 const { Instances } = require("../models");
+const { validateToken } = require("../middlewares/AuthMiddlewares");
+
 
 // Get Instances by Framework && User
-router.get("/:frameworkId/:userId", async (req, res) => {
+router.get("/:frameworkId",validateToken, async (req, res) => {
   try {
+    const userId = req.user.ID;
     const frameworkId = req.params.frameworkId;
-    const userId = req.params.userId;
     const InstancesByFrameworkandUser = await Instances.findAll({
       where: {
         FrameworkID: frameworkId,

@@ -5,6 +5,7 @@ module.exports = [{
     // Insert data for Frameworks
     await queryInterface.bulkInsert('Frameworks', [
       { Title: 'CBRR', Description: "Framework para o Brasil" },
+      { Title: 'Teste', Description: "Framework para teste" }
     ], {});
 
     // Insert data for Sections
@@ -93,10 +94,24 @@ module.exports = [{
 
 
     ], {});
+    await queryInterface.bulkInsert('Instances', [
+      { Title: 'teste', Description: "descrição", Class: 'Resource', FrameworkID: 1, UserID: 1},
+      { Title: 'teste2', Description: "descrição2", Class: 'Exploration', FrameworkID: 1, UserID: 1},
+      { Title: 'teste3', Description: "descrição3", Class: 'Reserve', FrameworkID: 1, UserID: 1},
+      { Title: 'teste4', Description: "descrição4", Class: 'Reserve', FrameworkID: 1, UserID: 2},
+      { Title: 'teste5', Description: "descrição3", Class: 'Reserve', FrameworkID: 2, UserID: 1},
+      { Title: 'teste6', Description: "descrição4", Class: 'Reserve', FrameworkID: 2, UserID: 1},
+    ], {});
   },
 
   async down(queryInterface, Sequelize) {
     try {
+
+        // Truncate data for Instances
+        await queryInterface.bulkDelete('Instances', null, {});
+        // Reset auto-increment counter for Instances table
+        await queryInterface.sequelize.query('ALTER TABLE Instances AUTO_INCREMENT = 1');
+
 
         // Truncate data for SubRequirements
         await queryInterface.bulkDelete('Questions', null, {});

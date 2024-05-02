@@ -11,7 +11,7 @@ const validateToken = (req, res, next) => {
   try {
     const validToken = verify(acessToken, process.env.SECRET_KEY);
     if (validToken) {
-      req.authenticated = true;
+      req.user = validToken;
       return next();
     }
   } catch (err) {
