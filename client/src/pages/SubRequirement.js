@@ -106,6 +106,10 @@ function SubRequirement() {
     }
   };
 
+  const handleReturn = () => {
+    navigate("/requirement/"+subrequirementObject["RequirementID"])
+  };
+
   return (
     <div>
       <div className="solo_SubRequirement">
@@ -141,6 +145,11 @@ function SubRequirement() {
         <div className="confirmation">{confirmationMessage}</div>
       )}
       {warning && <div className="warning">{warning}</div>}
+      <div>
+      <button className="return-button" onClick={handleReturn}>
+          Return
+        </button>
+      </div>
     </div>
   );
 }

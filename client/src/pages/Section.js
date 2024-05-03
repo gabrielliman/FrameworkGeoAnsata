@@ -45,6 +45,10 @@ function Section() {
       });
   }, [section_id]);
 
+  const handleReturn = () => {
+    navigate("/framework/" + sectionObject["FrameworkID"]);
+  };
+
   return (
     <div>
       <div className="solo_Section">
@@ -66,6 +70,11 @@ function Section() {
             </div>
           );
         })}
+      </div>
+      <div>
+        <button className="return-button" onClick={handleReturn}>
+          Return
+        </button>
       </div>
     </div>
   );

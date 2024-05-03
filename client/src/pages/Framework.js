@@ -44,6 +44,10 @@ function Framework() {
       });
   }, [framework_id]);
 
+  const handleReturn = () => {
+    navigate("/");
+  };
+
   return (
     <div>
       <div className="solo_Framework">
@@ -65,6 +69,11 @@ function Framework() {
             </div>
           );
         })}
+      </div>
+      <div>
+        <button className="return-button" onClick={handleReturn}>
+          Return
+        </button>
       </div>
     </div>
   );

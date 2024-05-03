@@ -45,6 +45,10 @@ function SubSection() {
       });
   }, [subsection_id]);
 
+  const handleReturn = () => {
+    navigate("/section/" + subsectionObject["SectionID"]);
+  };
+
   return (
     <div>
       <div className="solo_SubSection">
@@ -66,6 +70,11 @@ function SubSection() {
             </div>
           );
         })}
+      </div>
+      <div>
+        <button className="return-button" onClick={handleReturn}>
+          Return
+        </button>
       </div>
     </div>
   );

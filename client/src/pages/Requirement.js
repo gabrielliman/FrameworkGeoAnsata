@@ -67,6 +67,10 @@ function Requirement() {
       });
   }, [requirement_id]);
 
+  const handleReturn = () => {
+    navigate("/subsection/"+requirementObject["SubSectionID"])
+  };
+
   return (
     <div>
       <div className="solo_Requirement">
@@ -90,6 +94,11 @@ function Requirement() {
             </div>
           );
         })}
+      </div>
+      <div>
+        <button className="return-button" onClick={handleReturn}>
+          Return
+        </button>
       </div>
     </div>
   );
