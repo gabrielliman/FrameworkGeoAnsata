@@ -93,14 +93,14 @@ function SubRequirement() {
       );
       // Send the submission data to the server
       axios
-        .post("http://localhost:3001/answers", submission)
+        .post("http://localhost:3001/answers", submission,{
+          withCredentials: true,
+        })
         .then((response) => {
           setConfirmationMessage("Submission successful!");
-          // Optionally, do something with the response, like showing a success message
         })
         .catch((error) => {
           console.error("Error submitting answers:", error);
-          // Optionally, handle errors, show error message, etc.
           setWarning("Error submitting answers. Please try again.");
         });
     }
