@@ -7,8 +7,7 @@ function Home() {
 
     const [listOfFrameworks, setListOfFrameworks] = useState([]);
     const [listOfInstances, setListOfInstances] = useState([]);
-/*     const [selectedFrameworkId, setSelectedFrameworkId] = useState(); // Track the selected framework ID
- */    
+
     let navigate=useNavigate()
 
 
@@ -18,7 +17,6 @@ function Home() {
         })
         .catch(error =>{
             if (error.response && error.response.status === 401) {
-              console.log("got here")
               // Token validation error, redirect to another page
               navigate('/login'); // Redirect to login page or any other page
           } else {
@@ -42,7 +40,7 @@ function Home() {
 
     const handleClickInstance = (frameworkId, instanceID) => {
         sessionStorage.setItem('selectedInstanceID', instanceID);
-        navigate(`/section/${frameworkId}`);
+        navigate(`/framework/${frameworkId}`);
     };
 
 

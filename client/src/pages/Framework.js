@@ -25,20 +25,6 @@ function Framework() {
         setListOfSections(response.data);
       });
 
-/*     axios
-      .get(`http://localhost:3001/instances/${framework_id}`, {
-        withCredentials: true,
-      })
-      .then((response) => {
-        setListOfInstances(response.data);
-      })
-      .catch((error) => {
-        if (error.response && error.response.status === 401) {
-          navigate("/login"); // Redirect to login page or any other page
-        } else {
-          console.error(error);
-        }
-      }); */
   }, [framework_id]);
 
   return (
@@ -54,7 +40,7 @@ function Framework() {
               className="Section"
               key={value.ID}
               onClick={() => {
-                navigate(`/instance/${value.ID}`);
+                navigate(`/section/${value.ID}`);
               }}
             >
               <div className="section_title">{value.Title}</div>

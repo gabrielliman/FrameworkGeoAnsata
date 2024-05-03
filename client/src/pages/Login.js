@@ -1,9 +1,13 @@
 import React, {useState} from 'react'
 import {Formik, Form, Field, ErrorMessage} from 'formik'
+import { useNavigate } from "react-router-dom";
+
 import axios from 'axios'
 import * as Yup from 'yup'
 
+
 function Login() {
+    let navigate=useNavigate()
     const [loginResponse, setLoginResponse] = useState([]);
     const initialValues={
         Username: "",
@@ -15,9 +19,14 @@ function Login() {
         Password: Yup.string().min(4).max(30).required(),
     })
 
-    const onSubmit = (data) =>{
-        axios.post("http://localhost:3001/auth/login",data, { withCredentials: true }).then((response) => {
-            setLoginResponse(response.data)
+    const onSubmit = (data) => {
+        axios.post("http://localhost:3001/auth/login", data, { withCredentials: true }).then((response) => {
+            setLoginResponse(response.data);
+            if (response.data.confirmation) {
+                setTimeout(() => {
+                    navigate('/');
+                }, 500); // Navigate after 2 seconds
+            }
         });
     };
   return (
@@ -44,8 +53,8 @@ function Login() {
         </Formik>
         {loginResponse && (
             <div className="Response">
-                    <p className='error'>{loginResponse["error"]}</p>
-                    <p className='confirmation'>{loginResponse["confirmation"]}</p>
+                    {loginResponse["error"] && <div className="error">{loginResponse["error"]}</div>}
+                    {loginResponse["confirmation"] && <div className="confirmation">{loginResponse["confirmation"]}</div>}
                 </div>
             )}
     </div>

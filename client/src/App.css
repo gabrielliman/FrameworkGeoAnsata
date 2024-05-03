@@ -393,3 +393,39 @@ label {
   margin-top: 5px;
   font-size: 1em; /* Tamanho normal para a classe */
 }
+/* Question.css */
+.Question {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px; /* Add space between each question */
+}
+
+.Question select {
+  margin-right: 10px;
+  padding: 5px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  background-color: #f9f9f9;
+}
+
+.Question .Question_body {
+  flex-grow: 1; /* Allow question text to grow and take up remaining space */
+}
+
+.warning {
+  margin-top: 10px; /* Add space between warning message and button */
+  color: red; /* Change color to red */
+}
+
+.submit-button {
+  padding: 10px 20px; /* Add padding to the button */
+  background-color: cornflowerblue; /* Set background color */
+  color: #fff; /* Set text color to white */
+  border: none; /* Remove border */
+  border-radius: 5px; /* Add border radius */
+  cursor: pointer; /* Add pointer cursor on hover */
+}
+
+.submit-button:hover {
+  background-color: skyblue; /* Change background color on hover */
+}

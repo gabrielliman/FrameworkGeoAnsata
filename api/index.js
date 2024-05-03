@@ -37,8 +37,8 @@ const questionRouter = require('./routes/Questions');
 app.use("/questions", questionRouter); //Questions
 const referenceQuestionRouter = require('./routes/ReferenceQuestions');
 app.use("/referencequestions", referenceQuestionRouter); //ReferenceQuestions
-const anwserRouter = require('./routes/Anwsers');
-app.use("/anwsers", anwserRouter); //Anwsers
+const answerRouter = require('./routes/Answers');
+app.use("/answers", answerRouter); //answers
 
 
 

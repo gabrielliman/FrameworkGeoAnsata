@@ -11,7 +11,7 @@ const Questions = sequelize.define('Questions', {
   timestamps: false
 });
 Questions.associate = (models) =>{
-  Questions.hasMany(models.Anwsers, {
+  Questions.hasMany(models.Answers, {
     onDelete:"cascade",});
 };
 return Questions;

@@ -21,7 +21,7 @@ const Instances = sequelize.define('Instances', {
   },
 },{timestamps: false});
 Instances.associate = (models) =>{
-  Instances.hasMany(models.Anwsers, {
+  Instances.hasMany(models.Answers, {
     onDelete:"cascade",});
 }
 
