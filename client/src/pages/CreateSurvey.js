@@ -17,7 +17,6 @@ function CreateSurvey() {
 
     const onSubmit = (data) =>{
         axios.post("http://localhost:3001/surveys",data,{ withCredentials: true }).then((response) => {
-        console.log("It Worked");
         });
     };
   return (

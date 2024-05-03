@@ -1,9 +1,10 @@
 const express = require("express");
 const router = express.Router();
 const { Answers } = require("../models");
+const { validateToken } = require("../middlewares/AuthMiddlewares");
 
 // Get Answers by Instance and Question
-router.get("/:instanceId/:questionId", async (req, res) => {
+router.get("/:instanceId/:questionId", validateToken, async (req, res) => {
   try {
     const instanceId = req.params.instanceId;
     const questionId = req.params.questionId;
@@ -21,7 +22,7 @@ router.get("/:instanceId/:questionId", async (req, res) => {
 });
 
 // Get Answer by Id
-router.get("/byId/:id", async (req, res) => {
+router.get("/byId/:id", validateToken, async (req, res) => {
   try {
     const id = req.params.id;
     const answerById = await Answers.findByPk(id);
@@ -33,7 +34,7 @@ router.get("/byId/:id", async (req, res) => {
 });
 
 // Create Answer
-router.post("/", async (req, res) => {
+router.post("/", validateToken, async (req, res) => {
   try {
     const answersList = req.body; // Recebe a lista de objetos de entrada
 
@@ -43,8 +44,8 @@ router.post("/", async (req, res) => {
       const existingAnswer = await Answers.findOne({
         where: {
           InstanceID: answerData.InstanceID,
-          QuestionID: answerData.QuestionID
-        }
+          QuestionID: answerData.QuestionID,
+        },
       });
 
       if (existingAnswer) {
@@ -52,8 +53,8 @@ router.post("/", async (req, res) => {
         await Answers.update(answerData, {
           where: {
             InstanceID: answerData.InstanceID,
-            QuestionID: answerData.QuestionID
-          }
+            QuestionID: answerData.QuestionID,
+          },
         });
         updatedAnswers.push(existingAnswer);
       } else {

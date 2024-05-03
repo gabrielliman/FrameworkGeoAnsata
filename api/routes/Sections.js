@@ -1,9 +1,10 @@
 const express = require("express");
 const router = express.Router();
 const { Sections } = require("../models");
+const { validateToken } = require("../middlewares/AuthMiddlewares");
 
 // Get Sections by Framework
-router.get("/:frameworkId", async (req, res) => {
+router.get("/:frameworkId", validateToken, async (req, res) => {
   try {
     const frameworkId = req.params.frameworkId;
     const SectionsByFramework = await Sections.findAll({
@@ -19,7 +20,7 @@ router.get("/:frameworkId", async (req, res) => {
 });
 
 // Get Section by Id
-router.get("/byId/:id", async (req, res) => {
+router.get("/byId/:id", validateToken, async (req, res) => {
   try {
     const id = req.params.id;
     const sectionbyId = await Sections.findByPk(id);
@@ -31,7 +32,7 @@ router.get("/byId/:id", async (req, res) => {
 });
 
 // Create Section
-router.post("/", async (req, res) => {
+router.post("/", validateToken, async (req, res) => {
   try {
     const section = req.body;
     await Sections.create(section);

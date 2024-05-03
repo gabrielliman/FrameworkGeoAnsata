@@ -15,6 +15,15 @@ function Framework() {
       })
       .then((response) => {
         setFrameworkObject(response.data);
+      })
+      .catch((error) => {
+        if (error.response && error.response.status === 401) {
+          // Token validation error, redirect to login page
+          navigate("/login");
+        } else {
+          // Other errors, handle as needed
+          console.error(error);
+        }
       });
 
     axios
@@ -23,8 +32,16 @@ function Framework() {
       })
       .then((response) => {
         setListOfSections(response.data);
+      })
+      .catch((error) => {
+        if (error.response && error.response.status === 401) {
+          // Token validation error, redirect to login page
+          navigate("/login");
+        } else {
+          // Other errors, handle as needed
+          console.error(error);
+        }
       });
-
   }, [framework_id]);
 
   return (

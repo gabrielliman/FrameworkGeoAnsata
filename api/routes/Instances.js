@@ -3,9 +3,8 @@ const router = express.Router();
 const { Instances } = require("../models");
 const { validateToken } = require("../middlewares/AuthMiddlewares");
 
-
 // Get Instances by Framework && User
-router.get("/:frameworkId",validateToken, async (req, res) => {
+router.get("/:frameworkId", validateToken, async (req, res) => {
   try {
     const userId = req.user.ID;
     const frameworkId = req.params.frameworkId;
@@ -23,7 +22,7 @@ router.get("/:frameworkId",validateToken, async (req, res) => {
 });
 
 // Get Instance by Id
-router.get("/byId/:id", async (req, res) => {
+router.get("/byId/:id", validateToken, async (req, res) => {
   try {
     const id = req.params.id;
     const instancebyId = await Instances.findByPk(id);
@@ -35,9 +34,10 @@ router.get("/byId/:id", async (req, res) => {
 });
 
 // Create Instance
-router.post("/", async (req, res) => {
+router.post("/", validateToken, async (req, res) => {
   try {
-    const instance = req.body;
+    const userId = req.user.ID;
+    const instance = { ...req.body, UserID: userId };
     await Instances.create(instance);
     res.json(instance);
   } catch (error) {

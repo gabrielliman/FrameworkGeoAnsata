@@ -1,9 +1,10 @@
 const express = require("express");
 const router = express.Router();
 const { ReferenceQuestions } = require("../models");
+const { validateToken } = require("../middlewares/AuthMiddlewares");
 
 // Get All ReferenceQuestions
-router.get("/", async (req, res) => {
+router.get("/", validateToken, async (req, res) => {
   try {
     const allReferenceQuestions = await ReferenceQuestions.findAll();
     res.json(allReferenceQuestions);
@@ -14,7 +15,7 @@ router.get("/", async (req, res) => {
 });
 
 // Get ReferenceQuestion by id
-router.get("/byId/:id", async (req, res) => {
+router.get("/byId/:id", validateToken, async (req, res) => {
   try {
     const id = req.params.id;
     const referencequestionbyId = await ReferenceQuestions.findByPk(id);
@@ -26,7 +27,7 @@ router.get("/byId/:id", async (req, res) => {
 });
 
 // Create ReferenceQuestion
-router.post("/", async (req, res) => {
+router.post("/", validateToken, async (req, res) => {
   try {
     const referencequestion = req.body;
     await ReferenceQuestions.create(referencequestion);
@@ -38,7 +39,7 @@ router.post("/", async (req, res) => {
 });
 
 // Get ReferenceQuestions by Questions list
-router.post("/byIds", async (req, res) => {
+router.post("/byIds", validateToken, async (req, res) => {
   try {
     const requestData = req.body;
     const referenceQuestionIds = requestData.map(

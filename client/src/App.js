@@ -12,6 +12,7 @@ import SubRequirement from './pages/SubRequirement';
  */
 import Registration from './pages/Registration'
 import Login from './pages/Login';
+import CreateInstance from './pages/CreateInstance';
 
 function App() {
   return(<div className="App">
@@ -32,6 +33,7 @@ function App() {
     <Route path="/subsection/:subsection_id" exact element={<SubSection />}></Route>
     <Route path="/requirement/:requirement_id" exact element={<Requirement />}></Route>
     <Route path="/subrequirement/:subrequirement_id" exact element={<SubRequirement />}></Route>
+    <Route path="/createinstance/:framework_id" exact element={<CreateInstance />}></Route>
 
 
     <Route path="/login" exact element={<Login />}></Route>
