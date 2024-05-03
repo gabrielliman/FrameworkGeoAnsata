@@ -32,6 +32,7 @@ function Registration() {
         }
       });
   };
+  
   return (
     <div className="RegistrationPage">
       <Formik
@@ -46,6 +47,8 @@ function Registration() {
             id="usernameRegistration"
             name="Username"
             placeholder="Username"
+            autoFocus
+            autoComplete="username" // Add autocomplete attribute for username
           />
           <label> Email </label>
           <ErrorMessage name="Email" element="span" />
@@ -54,6 +57,7 @@ function Registration() {
             type="email"
             name="Email"
             placeholder="Email"
+            autoComplete="email" // Add autocomplete attribute for email
           />
           <label> Password </label>
           <ErrorMessage name="Password" element="span" />
@@ -62,6 +66,7 @@ function Registration() {
             type="password"
             name="Password"
             placeholder="Password"
+            autoComplete="new-password" // Add autocomplete attribute for password
           />
           <button type="submit"> Register User</button>
         </Form>

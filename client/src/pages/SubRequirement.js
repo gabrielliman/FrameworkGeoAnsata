@@ -3,7 +3,6 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-
 function SubRequirement() {
   let navigate = useNavigate();
 
@@ -16,15 +15,14 @@ function SubRequirement() {
   const [instanceId, setInstanceId] = useState("");
   const [confirmationMessage, setConfirmationMessage] = useState("");
 
-  // Fetch InstanceID from session storage on component mount
   useEffect(() => {
     const storedInstanceId = sessionStorage.getItem("selectedInstanceID");
     if (storedInstanceId) {
       setInstanceId(storedInstanceId);
+    } else {
+      navigate("/"); // Redirect to home page if instance ID is not stored
     }
-  }, []);
 
-  useEffect(() => {
     axios
       .get(`http://localhost:3001/subrequirements/byId/${subrequirement_id}`, {
         withCredentials: true,
@@ -46,20 +44,28 @@ function SubRequirement() {
       .get(`http://localhost:3001/questions/${subrequirement_id}`, {
         withCredentials: true,
       })
-      .then((response) => {if (response.data.length > 0) {
-        axios
-          .post("http://localhost:3001/referencequestions/byIds", response.data)
-          .then((response) => {
-            setListOfReferenceQuestion(response.data);
-            // Initialize answers state with default values
-            const initialAnswers = {};
-            response.data.forEach((question) => {
-              initialAnswers[question.ID] = ""; // Default answer is empty string
+      .then((response) => {
+        if (response.data.length > 0) {
+          axios
+            .post(
+              "http://localhost:3001/referencequestions/byIds",
+              response.data,
+              {
+                withCredentials: true,
+              }
+            )
+            .then((response) => {
+              setListOfReferenceQuestion(response.data);
+              // Initialize answers state with default values
+              const initialAnswers = {};
+              response.data.forEach((question) => {
+                initialAnswers[question.ID] = ""; // Default answer is empty string
+              });
+              setAnswers(initialAnswers);
             });
-            setAnswers(initialAnswers);
-          });
-  }});
-  }, [subrequirement_id]);
+        }
+      });
+  }, [subrequirement_id, navigate]);
 
   // Handler to update answers state when selector changes
   const handleAnswerChange = (questionId, answer) => {
@@ -104,7 +110,9 @@ function SubRequirement() {
     <div>
       <div className="solo_SubRequirement">
         <div className="subrequirement_title">{subrequirementObject.Title}</div>
-        <div className="subrequirement_body">{subrequirementObject.OriginalQuestion}</div>
+        <div className="subrequirement_body">
+          {subrequirementObject.OriginalQuestion}
+        </div>
       </div>
       <div>
         {listOfReferenceQuestion.map((value, key) => {
@@ -135,7 +143,6 @@ function SubRequirement() {
       {warning && <div className="warning">{warning}</div>}
     </div>
   );
-  
 }
 
 export default SubRequirement;

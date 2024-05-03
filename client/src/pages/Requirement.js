@@ -6,11 +6,51 @@ function Requirement() {
   let { requirement_id } = useParams();
   let navigate = useNavigate();
 
-  const [requirementObject, setRequirementObject] = useState({});
+  const enumValues = {
+    Exploration: 1,
+    Resource: 2,
+    Reserve: 3,
+  };
 
+  const [requirementObject, setRequirementObject] = useState({});
   const [listOfSubRequirement, setListOfSubRequirement] = useState([]);
 
   useEffect(() => {
+    const storedInstanceId = sessionStorage.getItem("selectedInstanceID");
+    if (storedInstanceId) {
+      axios
+        .get(`http://localhost:3001/instance/byId/${storedInstanceId}`, {
+          withCredentials: true,
+        })
+        .then((res) => {
+          axios
+            .get(`http://localhost:3001/subrequirements/${requirement_id}`, {
+              withCredentials: true,
+            })
+            .then((response) => {
+              const filteredSubRequirements = response.data.filter(
+                (subRequirement) =>
+                  enumValues[subRequirement.Class] <=
+                  enumValues[res.data["Class"]]
+              );
+              setListOfSubRequirement(filteredSubRequirements);
+            })
+            .catch((error) => {
+              if (error.response && error.response.status === 401) {
+                navigate("/login");
+              } else {
+                console.error(error);
+              }
+            });
+        })
+        .catch((error) => {
+          console.error("Error fetching instance:", error);
+          navigate("/");
+        });
+    } else {
+      navigate("/");
+    }
+
     axios
       .get(`http://localhost:3001/requirements/byId/${requirement_id}`, {
         withCredentials: true,
@@ -20,27 +60,8 @@ function Requirement() {
       })
       .catch((error) => {
         if (error.response && error.response.status === 401) {
-          // Token validation error, redirect to login page
           navigate("/login");
         } else {
-          // Other errors, handle as needed
-          console.error(error);
-        }
-      });
-
-    axios
-      .get(`http://localhost:3001/subrequirements/${requirement_id}`, {
-        withCredentials: true,
-      })
-      .then((response) => {
-        setListOfSubRequirement(response.data);
-      })
-      .catch((error) => {
-        if (error.response && error.response.status === 401) {
-          // Token validation error, redirect to login page
-          navigate("/login");
-        } else {
-          // Other errors, handle as needed
           console.error(error);
         }
       });
