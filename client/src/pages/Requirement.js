@@ -7,8 +7,35 @@ function Requirement() {
   let navigate = useNavigate();
 
   const [requirementObject, setRequirementObject] = useState({});
+  const [instanceID, setInstanceId] = useState("");
   const [listOfSubRequirement, setListOfSubRequirement] = useState([]);
+  const [loaded, setLoaded] = useState(false);
 
+  useEffect(() => {
+    const storedInstanceId = sessionStorage.getItem("selectedInstanceID");
+    if (storedInstanceId) {
+      setInstanceId(storedInstanceId);
+    } else {
+      //navigate("/");
+    }
+  }, [navigate]);
+
+  useEffect(() => {
+    if (instanceID && !loaded) {
+      axios
+        .get(`http://localhost:3001/requirements/byId/${requirement_id}`, {
+          withCredentials: true,
+        })
+        .then((response) => {
+          setRequirementObject(response.data);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+      setLoaded(true);
+    }
+  }, [instanceID, loaded, requirement_id]);
+  
   useEffect(() => {
     const enumValues = {
       Exploration: 1,
@@ -16,10 +43,9 @@ function Requirement() {
       Reserve: 3,
     };
 
-    const storedInstanceId = sessionStorage.getItem("selectedInstanceID");
-    if (storedInstanceId) {
+    if (instanceID && loaded) {
       axios
-        .get(`http://localhost:3001/instance/byId/${storedInstanceId}`, {
+        .get(`http://localhost:3001/instance/byId/${instanceID}`, {
           withCredentials: true,
         })
         .then((res) => {
@@ -27,20 +53,44 @@ function Requirement() {
             .get(`http://localhost:3001/subrequirements/${requirement_id}`, {
               withCredentials: true,
             })
-            .then((response) => {
-              const filteredSubRequirements = response.data.filter(
-                (subRequirement) =>
+            .then(async (response) => {
+              const filteredSubRequirements = response.data.filter((subRequirement) =>
                   enumValues[subRequirement.Class] <=
                   enumValues[res.data["Class"]]
               );
-              setListOfSubRequirement(filteredSubRequirements);
+              const subrequirementsWithStatsPromises =
+                filteredSubRequirements.map(async (subrequirement) => {
+                  try {
+                    const statsResponse = await axios.get(
+                      `http://localhost:3001/results/subrequirements/${subrequirement.ID}/instances/${instanceID}/questions-answers`,
+                      {
+                        withCredentials: true,
+                      }
+                    );
+                    subrequirement.stats = statsResponse.data;
+                  } catch (error) {
+                    console.error(
+                      "Error fetching question and answer statistics:",
+                      error
+                    );
+                    subrequirement.stats = { error: true };
+                  }
+                  return subrequirement;
+                });
+              const subrequirementsWithStats = await Promise.all(
+                subrequirementsWithStatsPromises
+              );
+              const filteredSubRequirementsWithStats =
+                subrequirementsWithStats.filter((subrequirement) => {
+                  if (subrequirement.stats) {
+                    return true;
+                  }
+                  return false;
+                });
+              setListOfSubRequirement(filteredSubRequirementsWithStats);
             })
             .catch((error) => {
-              if (error.response && error.response.status === 401) {
-                navigate("/login");
-              } else {
-                console.error(error);
-              }
+              console.error(error);
             });
         })
         .catch((error) => {
@@ -48,34 +98,23 @@ function Requirement() {
           navigate("/");
         });
     } else {
-      navigate("/");
+      //navigate("/");
     }
-
-    axios
-      .get(`http://localhost:3001/requirements/byId/${requirement_id}`, {
-        withCredentials: true,
-      })
-      .then((response) => {
-        setRequirementObject(response.data);
-      })
-      .catch((error) => {
-        if (error.response && error.response.status === 401) {
-          navigate("/login");
-        } else {
-          console.error(error);
-        }
-      });
-  }, [requirement_id,navigate]);
+  }, [instanceID, loaded, requirement_id, navigate]);
 
   const handleReturn = () => {
-    navigate("/subsection/"+requirementObject["SubSectionID"])
+    navigate("/subsection/" + requirementObject["SubSectionID"]);
   };
 
   return (
     <div>
       <div className="solo_Requirement">
-        <div className="requirement_page_title">Requirement: {requirementObject.Title}</div>
-        <div className="requirement_page_body">{requirementObject.OriginalText}</div>
+        <div className="requirement_page_title">
+          Requirement: {requirementObject.Title}
+        </div>
+        <div className="requirement_page_body">
+          {requirementObject.OriginalText}
+        </div>
       </div>
       <div className="sub_type">SubRequirements:</div>
       <div>
@@ -85,13 +124,28 @@ function Requirement() {
               className="SubRequirement"
               key={value.ID}
               onClick={() => {
-                navigate(`/subrequirement/${value.ID}`, { state: { listOfSubRequirement, currentIndex: key }});
+                navigate(`/subrequirement/${value.ID}`, {
+                  state: { listOfSubRequirement, currentIndex: key },
+                });
               }}
             >
               <div className="subrequirement_title">{value.Title}</div>
               <div className="subrequirement_body">
                 {value.OriginalQuestion}
               </div>
+              {value.stats ? (
+                <div className="requirement_stats">
+                  Total Questions: {value.stats.totalQuestions}
+                  <br />
+                  Answered: {value.stats.totalAnswered}
+                  <br />
+                  Unanswered: {value.stats.totalUnanswered}
+                </div>
+              ) : (
+                <div className="requirement_stats error">
+                  Error retrieving statistics
+                </div>
+              )}
             </div>
           );
         })}

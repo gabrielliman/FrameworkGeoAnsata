@@ -16,7 +16,7 @@ function SubSection() {
     if (storedInstanceId) {
       setInstanceId(storedInstanceId);
     } else {
-      navigate("/");
+      console.error("error");
     }
   }, [navigate]);
 
@@ -43,28 +43,43 @@ function SubSection() {
           withCredentials: true,
         })
         .then(async (response) => {
-          const requirementsWithStatsPromises = response.data.map(async (requirement) => {
-            try {
-              const statsResponse = await axios.get(`http://localhost:3001/results/requirements/${requirement.ID}/instances/${instanceID}/questions-answers`, {
-                withCredentials: true,
-              });
-              requirement.stats = statsResponse.data;
-            } catch (error) {
-              console.error('Error fetching question and answer statistics:', error);
-              requirement.stats = { error: true };
+          const requirementsWithStatsPromises = response.data.map(
+            async (requirement) => {
+              try {
+                const statsResponse = await axios.get(
+                  `http://localhost:3001/results/requirements/${requirement.ID}/instances/${instanceID}/questions-answers`,
+                  {
+                    withCredentials: true,
+                  }
+                );
+                requirement.stats = statsResponse.data;
+              } catch (error) {
+                console.error(
+                  "Error fetching question and answer statistics:",
+                  error
+                );
+                requirement.stats = { error: true };
+              }
+              return requirement;
             }
-            return requirement;
-          });
+          );
 
-          const requirementsWithStats = await Promise.all(requirementsWithStatsPromises);
+          const requirementsWithStats = await Promise.all(
+            requirementsWithStatsPromises
+          );
 
           // Filter requirements based on subrequirements class
-          const filteredRequirements = requirementsWithStats.filter(requirement => {
-            if (requirement.stats && requirement.stats.totalSubRequirements > 0) {
-              return true;
+          const filteredRequirements = requirementsWithStats.filter(
+            (requirement) => {
+              if (
+                requirement.stats &&
+                requirement.stats.totalSubRequirements > 0
+              ) {
+                return true;
+              }
+              return false;
             }
-            return false;
-          });
+          );
 
           setListOfRequirement(filteredRequirements);
         })
@@ -81,11 +96,15 @@ function SubSection() {
   return (
     <div>
       <div className="solo_SubSection">
-        <div className="subsection_page_title">SubSection: {subsectionObject.Title}</div>
-        <div className="subsection_page_body">{subsectionObject.Description}</div>
+        <div className="subsection_page_title">
+          SubSection: {subsectionObject.Title}
+        </div>
+        <div className="subsection_page_body">
+          {subsectionObject.Description}
+        </div>
       </div>
       <div>
-      <div className="sub_type">Requirements:</div>
+        <div className="sub_type">Requirements:</div>
         {listOfRequirement.map((value, key) => {
           return (
             <div
@@ -99,13 +118,18 @@ function SubSection() {
               <div className="requirement_body">{value.OriginalText}</div>
               {value.stats ? (
                 <div className="requirement_stats">
-                  Number of SubRequirements: {value.stats.totalSubRequirements}<br />
-                  Total Questions: {value.stats.totalQuestions}<br />
-                  Answered: {value.stats.totalAnswered}<br />
+                  Number of SubRequirements: {value.stats.totalSubRequirements}
+                  <br />
+                  Total Questions: {value.stats.totalQuestions}
+                  <br />
+                  Answered: {value.stats.totalAnswered}
+                  <br />
                   Unanswered: {value.stats.totalUnanswered}
                 </div>
               ) : (
-                <div className="requirement_stats error">Error retrieving statistics</div>
+                <div className="requirement_stats error">
+                  Error retrieving statistics
+                </div>
               )}
             </div>
           );
