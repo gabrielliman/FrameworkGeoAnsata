@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useLocation } from "react-router-dom";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 function SubRequirement() {
   let navigate = useNavigate();
-
   let { subrequirement_id } = useParams();
+  let location = useLocation();
 
   const [subrequirementObject, setSubRequirementObject] = useState({});
   const [listOfReferenceQuestion, setListOfReferenceQuestion] = useState([]);
@@ -14,6 +14,9 @@ function SubRequirement() {
   const [warning, setWarning] = useState("");
   const [instanceId, setInstanceId] = useState("");
   const [confirmationMessage, setConfirmationMessage] = useState("");
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [showPreviousButton, setShowPreviousButton] = useState(false);
+  const [showNextButton, setShowNextButton] = useState(false);
 
   useEffect(() => {
     const storedInstanceId = sessionStorage.getItem("selectedInstanceID");
@@ -23,10 +26,17 @@ function SubRequirement() {
       navigate("/"); // Redirect to home page if instance ID is not stored
     }
 
+    const { listOfSubRequirement, currentIndex } = location.state;
+    setCurrentIndex(currentIndex);
+    const currentSubRequirement = listOfSubRequirement[currentIndex];
+
     axios
-      .get(`http://localhost:3001/subrequirements/byId/${subrequirement_id}`, {
-        withCredentials: true,
-      })
+      .get(
+        `http://localhost:3001/subrequirements/byId/${currentSubRequirement.ID}`,
+        {
+          withCredentials: true,
+        }
+      )
       .then((response) => {
         setSubRequirementObject(response.data);
       })
@@ -41,7 +51,7 @@ function SubRequirement() {
       });
 
     axios
-      .get(`http://localhost:3001/questions/${subrequirement_id}`, {
+      .get(`http://localhost:3001/questions/${currentSubRequirement.ID}`, {
         withCredentials: true,
       })
       .then((response) => {
@@ -63,9 +73,27 @@ function SubRequirement() {
               });
               setAnswers(initialAnswers);
             });
+        } else {
+          // No reference questions available for this sub-requirement
+          setListOfReferenceQuestion([]); // Clear the list of reference questions
+          setAnswers({}); // Clear the answers
         }
       });
-  }, [subrequirement_id, navigate]);
+
+    // Verifique se o botão "Previous" deve ser mostrado
+    if (currentIndex > 0) {
+      setShowPreviousButton(true);
+    } else {
+      setShowPreviousButton(false);
+    }
+
+    // Verifique se o botão "Next" deve ser mostrado
+    if (currentIndex < location.state.listOfSubRequirement.length - 1) {
+      setShowNextButton(true);
+    } else {
+      setShowNextButton(false);
+    }
+  }, [subrequirement_id, navigate, location.state]);
 
   // Handler to update answers state when selector changes
   const handleAnswerChange = (questionId, answer) => {
@@ -93,7 +121,7 @@ function SubRequirement() {
       );
       // Send the submission data to the server
       axios
-        .post("http://localhost:3001/answers", submission,{
+        .post("http://localhost:3001/answers", submission, {
           withCredentials: true,
         })
         .then((response) => {
@@ -107,22 +135,49 @@ function SubRequirement() {
   };
 
   const handleReturn = () => {
-    navigate("/requirement/"+subrequirementObject["RequirementID"])
+    navigate("/requirement/" + subrequirementObject["RequirementID"]);
   };
+
+  // Handler to navigate to the previous sub-requirement
+  const goToPreviousSubRequirement = () => {
+    const { listOfSubRequirement } = location.state;
+    const newIndex = currentIndex - 1;
+    if (newIndex >= 0) {
+      setCurrentIndex(newIndex);
+      navigate(`/subrequirement/${listOfSubRequirement[newIndex].ID}`, {
+        state: { listOfSubRequirement, currentIndex: newIndex },
+      });
+    }
+  };
+
+  // Handler to navigate to the next sub-requirement
+  const goToNextSubRequirement = () => {
+    const { listOfSubRequirement } = location.state;
+    const newIndex = currentIndex + 1;
+    if (newIndex < listOfSubRequirement.length) {
+      setCurrentIndex(newIndex);
+      navigate(`/subrequirement/${listOfSubRequirement[newIndex].ID}`, {
+        state: { listOfSubRequirement, currentIndex: newIndex },
+      });
+    }
+  };
+
+  // Rest of your code
 
   return (
     <div>
       <div className="solo_SubRequirement">
-        <div className="subrequirement_title">{subrequirementObject.Title}</div>
-        <div className="subrequirement_body">
+        <div className="subrequirement_page_title">SubRequirement: {subrequirementObject.Title}</div>
+        <div className="subrequirement_page_body">
           {subrequirementObject.OriginalQuestion}
         </div>
       </div>
+      <div className="sub_type">Questions:</div>
       <div>
         {listOfReferenceQuestion.map((value, key) => {
           return (
             <div className="Question" key={value.ID}>
-              <div className="Question_body">{value.Text}</div>
+              <div className="question_body">{value.Text}</div>
               <select
                 value={answers[value.ID]}
                 onChange={(e) => handleAnswerChange(value.ID, e.target.value)}
@@ -137,17 +192,33 @@ function SubRequirement() {
         })}
       </div>
       {listOfReferenceQuestion.length > 0 && (
-        <button className="submit-button" onClick={handleSubmit}>
-          Submit Response
-        </button>
+        <div className="submit-container">
+          <button className="submit-button" onClick={handleSubmit}>
+            Submit Response
+          </button>
+        </div>
       )}
       {confirmationMessage && (
         <div className="confirmation">{confirmationMessage}</div>
       )}
       {warning && <div className="warning">{warning}</div>}
-      <div>
-      <button className="return-button" onClick={handleReturn}>
+      <div className="button-container">
+        <button
+          className="previous-button"
+          onClick={goToPreviousSubRequirement}
+          style={{ visibility: showPreviousButton ? "visible" : "hidden" }}
+        >
+          Previous
+        </button>
+        <button className="return-button" onClick={handleReturn}>
           Return
+        </button>
+        <button
+          className="next-button"
+          onClick={goToNextSubRequirement}
+          style={{ visibility: showNextButton ? "visible" : "hidden" }}
+        >
+          Next
         </button>
       </div>
     </div>

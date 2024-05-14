@@ -5,7 +5,7 @@
   display: inline-block;
   padding: 10px 20px;
   color: white;
-  background-color: cornflowerblue;
+  background-color: #007bff;
   text-decoration: none;
   margin-right: 10px; /* Adjust as needed */
 }
@@ -26,17 +26,23 @@
   color: black; /* Set font color to black */
 }
 
-.title {
+.home_page {
+  color: black;
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+.framework_title {
   color: black;
   font-size: 20px;
   font-weight: bold;
+  margin-bottom: 10px;
 }
-
-.body, .footer {
+.framework_body, .framework_footer {
   color: black; /* Set font color to black */
 }
 
-.footer {
+.framework_footer {
   font-style: italic;
 }
 
@@ -47,21 +53,21 @@
   margin-bottom: 20px;
 }
 
-.framework_title {
+.framework_page_title {
   color: black;
   font-size: 24px;
   font-weight: bold;
   margin-bottom: 10px;
 }
 
-.framework_body {
+.framework_page_body {
   color: black;
   margin-bottom: 20px;
 }
 
 .Section {
   background-color: white;
-  border: 1px solid cornflowerblue;
+  border: 1px solid #007bff;
   padding: 10px;
   margin-bottom: 10px;
   cursor: pointer;
@@ -78,10 +84,6 @@
   color: black;
 }
 
-
-.section_body {
-  color: black;
-}
 
 /* Section.css */
 
@@ -90,34 +92,34 @@
   margin-bottom: 20px;
 }
 
-.section_title {
+.section_page_title {
   color: black;
   font-size: 24px;
   font-weight: bold;
   margin-bottom: 10px;
 }
 
-.section_body {
+.section_page_body {
   color: black;
   margin-bottom: 20px;
 }
 
 .SubSection {
   background-color: white;
-  border: 1px solid cornflowerblue;
+  border: 1px solid #007bff;
   padding: 10px;
   margin-bottom: 10px;
   cursor: pointer;
 }
 
-.SubSection_title {
+.subsection_title {
   color: black;
   font-size: 20px;
   font-weight: bold;
   margin-bottom: 5px;
 }
 
-.SubSection_body {
+.subsection_body {
   color: black;
 }
 
@@ -129,34 +131,34 @@
   margin-bottom: 20px;
 }
 
-.subsection_title {
+.subsection_page_title {
   color: black;
   font-size: 24px;
   font-weight: bold;
   margin-bottom: 10px;
 }
 
-.subsection_body {
+.subsection_page_body {
   color: black;
   margin-bottom: 20px;
 }
 
 .Requirement {
   background-color: white;
-  border: 1px solid cornflowerblue;
+  border: 1px solid #007bff;
   padding: 10px;
   margin-bottom: 10px;
   cursor: pointer;
 }
 
-.Requirement_title {
+.requirement_title {
   color: black;
   font-size: 20px;
   font-weight: bold;
   margin-bottom: 5px;
 }
 
-.Requirement_body {
+.requirement_body {
   color: black;
 }
 
@@ -168,34 +170,34 @@
   margin-bottom: 20px;
 }
 
-.requirement_title {
+.requirement_page_title {
   color: black;
   font-size: 24px;
   font-weight: bold;
   margin-bottom: 10px;
 }
 
-.requirement_body {
+.requirement_page_body {
   color: black;
   margin-bottom: 20px;
 }
 
 .SubRequirement {
   background-color: white;
-  border: 1px solid cornflowerblue;
+  border: 1px solid #007bff;
   padding: 10px;
   margin-bottom: 10px;
   cursor: pointer;
 }
 
-.SubRequirement_title {
+.subrequirement_title {
   color: black;
   font-size: 20px;
   font-weight: bold;
   margin-bottom: 5px;
 }
 
-.SubRequirement_body {
+.subrequirement_body {
   color: black;
 }
 
@@ -206,26 +208,26 @@
   margin-bottom: 20px;
 }
 
-.subrequirement_title {
+.subrequirement_page_title {
   color: black;
   font-size: 24px;
   font-weight: bold;
   margin-bottom: 10px;
 }
 
-.subrequirement_body {
+.subrequirement_page_body {
   color: black;
   margin-bottom: 20px;
 }
 
 .Question {
   background-color: white;
-  border: 1px solid cornflowerblue;
+  border: 1px solid #007bff;
   padding: 10px;
   margin-bottom: 10px;
 }
 
-.Question_body {
+.question_body {
   color: black;
 }
 
@@ -370,7 +372,7 @@ label {
 /* Instance.css */
 /* Estilo para o container de instância */
 .instanceContainer {
-  background-color: cornflowerblue; /* Light blue background */
+  background-color: #007bff; /* Light blue background */
   color: white; /* White text */
   padding: 10px;
   margin-top: 15px;
@@ -397,7 +399,7 @@ label {
 
 /* CreateInstanceButton.css */
 .createInstanceContainer {
-  background-color: cornflowerblue; /* Light blue background */
+  background-color: #007bff; /* Light blue background */
   color: white; /* White text */
   padding: 10px;
   margin-top: 10px;
@@ -423,7 +425,7 @@ label {
   background-color: #f9f9f9;
 }
 
-.Question .Question_body {
+.Question .question_body {
   flex-grow: 1; /* Allow question text to grow and take up remaining space */
 }
 
@@ -432,31 +434,60 @@ label {
   color: red; /* Change color to red */
 }
 
+.submit-container {
+  position: relative;
+  top: 25px;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 .submit-button {
   padding: 10px 20px; /* Add padding to the button */
-  background-color: cornflowerblue; /* Set background color */
+  background-color: #007bff; /* Set background color */
   color: #fff; /* Set text color to white */
   border: none; /* Remove border */
   border-radius: 5px; /* Add border radius */
   cursor: pointer; /* Add pointer cursor on hover */
+
+
 }
 
 .submit-button:hover {
   background-color: skyblue; /* Change background color on hover */
 }
 
-.return-button {
-  margin-top: 5px;
-  padding: 10px 20px; /* Add padding to the button */
-  background-color: cornflowerblue; /* Set background color */
-  color: #fff; /* Set text color to white */
-  border: none; /* Remove border */
-  border-radius: 5px; /* Add border radius */
-  cursor: pointer; /* Add pointer cursor on hover */
+
+.button-container {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.return-button:hover {
-  background-color: skyblue; /* Change background color on hover */
+.return-button,
+.previous-button,
+.next-button {
+  padding: 10px 20px;
+  margin: 0 10px;
+  border: none;
+  border-radius: 5px;
+  background-color: #007bff;
+  color: #fff;
+  cursor: pointer;
+  outline: none;
+}
+
+
+.return-button:hover,
+.previous-button:hover,
+.next-button:hover {
+  background-color: skyblue;
 }
 
 
@@ -503,7 +534,7 @@ label {
 
 /* Style for the submit button */
 button[type="submit"] {
-  background-color: cornflowerblue;
+  background-color: #007bff;
   color: white;
   border: none;
   padding: 10px 20px;
@@ -514,4 +545,13 @@ button[type="submit"] {
 
 button[type="submit"]:hover {
   background-color: #6495ed; /* Adjust hover color as needed */
+}
+
+
+/*aux*/
+.sub_type {
+  color: black;
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 10px;
 }

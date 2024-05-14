@@ -52,6 +52,8 @@ function Home() {
 
   return (
     <div>
+      <div className="home_page">Home Page</div>
+      <div className="sub_type">Frameworks:</div>
       {listOfFrameworks.map((value, key) => {
         return (
           <div
@@ -59,9 +61,9 @@ function Home() {
             key={value.ID}
             onClick={() => handleClickFramework(value.ID)}
           >
-            <div className="title">{value.Title}</div>
-            <div className="body">{value.Description}</div>
-            <div className="footer">{value.createdAt}</div>
+            <div className="framework_title">{value.Title}</div>
+            <div className="framework_body">{value.Description}</div>
+            <div className="framework_footer">{value.createdAt}</div>
             {selectedFramework === value.ID && (
               <div>
                 {listOfInstances.map(

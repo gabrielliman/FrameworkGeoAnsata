@@ -41,6 +41,8 @@ const answerRouter = require('./routes/Answers');
 app.use("/answers", answerRouter); //answers
 
 
+const resultRouter = require("./routes/Results");
+app.use("/results",resultRouter)
 
 
 // Sync Dataset

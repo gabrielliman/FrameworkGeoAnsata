@@ -32,7 +32,11 @@ function Section() {
         withCredentials: true,
       })
       .then((response) => {
-        setListOfSubSection(response.data);
+      if (response.data.length > 0){
+        setListOfSubSection(response.data);}
+      else{
+        setListOfSubSection([])
+      }
       })
       .catch((error) => {
         if (error.response && error.response.status === 401) {
@@ -43,7 +47,7 @@ function Section() {
           console.error(error);
         }
       });
-  }, [section_id]);
+  }, [section_id, navigate]);
 
   const handleReturn = () => {
     navigate("/framework/" + sectionObject["FrameworkID"]);
@@ -52,9 +56,10 @@ function Section() {
   return (
     <div>
       <div className="solo_Section">
-        <div className="section_title">{sectionObject.Title}</div>
-        <div className="section_body">{sectionObject.Description}</div>
+        <div className="section_page_title">Section: {sectionObject.Title}</div>
+        <div className="section_page_body">{sectionObject.Description}</div>
       </div>
+      <div className="sub_type">SubSections:</div>
       <div>
         {listOfSubSection.map((value, key) => {
           return (
@@ -65,13 +70,13 @@ function Section() {
                 navigate(`/subsection/${value.ID}`);
               }}
             >
-              <div className="SubSection_title">{value.Title}</div>
-              <div className="SubSection_body">{value.Description}</div>
+              <div className="subsection_title">{value.Title}</div>
+              <div className="subsection_body">{value.Description}</div>
             </div>
           );
         })}
       </div>
-      <div>
+      <div className="button-container">
         <button className="return-button" onClick={handleReturn}>
           Return
         </button>

@@ -6,16 +6,16 @@ function Requirement() {
   let { requirement_id } = useParams();
   let navigate = useNavigate();
 
-  const enumValues = {
-    Exploration: 1,
-    Resource: 2,
-    Reserve: 3,
-  };
-
   const [requirementObject, setRequirementObject] = useState({});
   const [listOfSubRequirement, setListOfSubRequirement] = useState([]);
 
   useEffect(() => {
+    const enumValues = {
+      Exploration: 1,
+      Resource: 2,
+      Reserve: 3,
+    };
+
     const storedInstanceId = sessionStorage.getItem("selectedInstanceID");
     if (storedInstanceId) {
       axios
@@ -65,7 +65,7 @@ function Requirement() {
           console.error(error);
         }
       });
-  }, [requirement_id]);
+  }, [requirement_id,navigate]);
 
   const handleReturn = () => {
     navigate("/subsection/"+requirementObject["SubSectionID"])
@@ -74,9 +74,10 @@ function Requirement() {
   return (
     <div>
       <div className="solo_Requirement">
-        <div className="requirement_title">{requirementObject.Title}</div>
-        <div className="requirement_body">{requirementObject.OriginalText}</div>
+        <div className="requirement_page_title">Requirement: {requirementObject.Title}</div>
+        <div className="requirement_page_body">{requirementObject.OriginalText}</div>
       </div>
+      <div className="sub_type">SubRequirements:</div>
       <div>
         {listOfSubRequirement.map((value, key) => {
           return (
@@ -84,11 +85,11 @@ function Requirement() {
               className="SubRequirement"
               key={value.ID}
               onClick={() => {
-                navigate(`/subrequirement/${value.ID}`);
+                navigate(`/subrequirement/${value.ID}`, { state: { listOfSubRequirement, currentIndex: key }});
               }}
             >
-              <div className="SubRequirement_title">{value.Title}</div>
-              <div className="SubRequirement_body">
+              <div className="subrequirement_title">{value.Title}</div>
+              <div className="subrequirement_body">
                 {value.OriginalQuestion}
               </div>
             </div>

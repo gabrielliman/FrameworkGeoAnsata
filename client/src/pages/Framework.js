@@ -6,7 +6,7 @@ function Framework() {
   let { framework_id } = useParams();
   let navigate = useNavigate();
   const [frameworkObject, setFrameworkObject] = useState({});
-  const [listOfSections, setListOfSections] = useState([]);
+  const [listOfSection, setlistOfSection] = useState([]);
 
   useEffect(() => {
     axios
@@ -31,7 +31,7 @@ function Framework() {
         withCredentials: true,
       })
       .then((response) => {
-        setListOfSections(response.data);
+        setlistOfSection(response.data);
       })
       .catch((error) => {
         if (error.response && error.response.status === 401) {
@@ -42,20 +42,21 @@ function Framework() {
           console.error(error);
         }
       });
-  }, [framework_id]);
+  }, [framework_id, navigate]);
 
-  const handleReturn = () => {
+/*   const handleReturn = () => {
     navigate("/");
-  };
+  }; */
 
   return (
     <div>
       <div className="solo_Framework">
-        <div className="framework_title">{frameworkObject.Title}</div>
-        <div className="framework_body">{frameworkObject.Description}</div>
+        <div className="framework_page_title">Framework: {frameworkObject.Title}</div>
+        <div className="framework_page_body">{frameworkObject.Description}</div>
       </div>
       <div>
-        {listOfSections.map((value, key) => {
+        <div className="sub_type">Sections:</div>
+        {listOfSection.map((value, key) => {
           return (
             <div
               className="Section"
@@ -71,9 +72,9 @@ function Framework() {
         })}
       </div>
       <div>
-        <button className="return-button" onClick={handleReturn}>
+{/*         <button className="return-button" onClick={handleReturn}>
           Return
-        </button>
+        </button> */}
       </div>
     </div>
   );
