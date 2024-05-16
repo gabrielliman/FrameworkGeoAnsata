@@ -9,7 +9,8 @@ function SubRequirement() {
   let location = useLocation();
 
   const [subrequirementObject, setSubRequirementObject] = useState({});
-  const [listOfReferenceQuestion, setListOfReferenceQuestion] = useState([]);
+  const [listOfQuestion, setListOfQuestion] = useState([]);
+
   const [answers, setAnswers] = useState({});
   const [warning, setWarning] = useState("");
   const [instanceId, setInstanceId] = useState("");
@@ -18,82 +19,78 @@ function SubRequirement() {
   const [showPreviousButton, setShowPreviousButton] = useState(false);
   const [showNextButton, setShowNextButton] = useState(false);
 
-  useEffect(() => {
-    const storedInstanceId = sessionStorage.getItem("selectedInstanceID");
-    if (storedInstanceId) {
-      setInstanceId(storedInstanceId);
-    } else {
-      navigate("/"); // Redirect to home page if instance ID is not stored
-    }
+  useEffect(() => {const fetchData = async () => {
+    try {
+      const storedInstanceId = sessionStorage.getItem("selectedInstanceID");
+      if (storedInstanceId) {
+        setInstanceId(storedInstanceId);
+      } else {
+        navigate("/"); // Redirect to home page if instance ID is not stored
+      }
 
-    const { listOfSubRequirement, currentIndex } = location.state;
-    setCurrentIndex(currentIndex);
-    const currentSubRequirement = listOfSubRequirement[currentIndex];
+      const { listOfSubRequirement, currentIndex } = location.state;
+      setCurrentIndex(currentIndex);
+      const currentSubRequirement = listOfSubRequirement[currentIndex];
 
-    axios
-      .get(
+      // Fetch subrequirement object
+      const subRequirementResponse = await axios.get(
         `http://localhost:3001/subrequirements/byId/${currentSubRequirement.ID}`,
-        {
-          withCredentials: true,
-        }
-      )
-      .then((response) => {
-        setSubRequirementObject(response.data);
-      })
-      .catch((error) => {
-        if (error.response && error.response.status === 401) {
-          // Token validation error, redirect to login page
-          navigate("/login");
-        } else {
-          // Other errors, handle as needed
-          console.error(error);
-        }
+        { withCredentials: true }
+      );
+      setSubRequirementObject(subRequirementResponse.data);
+
+      // Fetch questions for the subrequirement
+      const questionsResponse = await axios.get(
+        `http://localhost:3001/questions/${currentSubRequirement.ID}`,
+        { withCredentials: true }
+      );
+      const questions = questionsResponse.data;
+
+      // Initialize answers state
+      const initialAnswers = {};
+      questions.forEach((question) => {
+        initialAnswers[question.ID] = ""; // Default answer is empty string
       });
+      setAnswers(initialAnswers);
 
-    axios
-      .get(`http://localhost:3001/questions/${currentSubRequirement.ID}`, {
-        withCredentials: true,
-      })
-      .then((response) => {
-        if (response.data.length > 0) {
-          axios
-            .post(
-              "http://localhost:3001/referencequestions/byIds",
-              response.data,
-              {
-                withCredentials: true,
-              }
-            )
-            .then((response) => {
-              setListOfReferenceQuestion(response.data);
-              // Initialize answers state with default values
-              const initialAnswers = {};
-              response.data.forEach((question) => {
-                initialAnswers[question.ID] = ""; // Default answer is empty string
-              });
-              setAnswers(initialAnswers);
-            });
-        } else {
-          // No reference questions available for this sub-requirement
-          setListOfReferenceQuestion([]); // Clear the list of reference questions
-          setAnswers({}); // Clear the answers
-        }
-      });
+      // Fetch and attach reference questions to each question
+      for (const question of questions) {
+        const referenceResponse = await axios.post(
+          "http://localhost:3001/referencequestions/byIds",
+          [question],
+          { withCredentials: true }
+        );
+        const referenceQuestion = referenceResponse.data[0];
+        question.reference = referenceQuestion;
+      }
 
-    // Verifique se o botão "Previous" deve ser mostrado
-    if (currentIndex > 0) {
-      setShowPreviousButton(true);
-    } else {
-      setShowPreviousButton(false);
+      // Set list of questions with reference questions attached
+      setListOfQuestion(questions);
+
+    } catch (error) {
+      console.error("Error fetching data:", error);
+      if (error.response && error.response.status === 401) {
+        navigate("/login");
+      }
     }
+  };
 
-    // Verifique se o botão "Next" deve ser mostrado
-    if (currentIndex < location.state.listOfSubRequirement.length - 1) {
-      setShowNextButton(true);
-    } else {
-      setShowNextButton(false);
-    }
-  }, [subrequirement_id, navigate, location.state]);
+  fetchData();
+
+  // Check if the "Previous" button should be shown
+  if (currentIndex > 0) {
+    setShowPreviousButton(true);
+  } else {
+    setShowPreviousButton(false);
+  }
+
+  // Check if the "Next" button should be shown
+  if (currentIndex < location.state.listOfSubRequirement.length - 1) {
+    setShowNextButton(true);
+  } else {
+    setShowNextButton(false);
+  }
+  }, [subrequirement_id, navigate, location.state, currentIndex]);
 
   // Handler to update answers state when selector changes
   const handleAnswerChange = (questionId, answer) => {
@@ -163,8 +160,7 @@ function SubRequirement() {
   };
 
   // Rest of your code
-
-  return (
+    return (
     <div>
       <div className="solo_SubRequirement">
         <div className="subrequirement_page_title">SubRequirement: {subrequirementObject.Title}</div>
@@ -174,10 +170,10 @@ function SubRequirement() {
       </div>
       <div className="sub_type">Questions:</div>
       <div>
-        {listOfReferenceQuestion.map((value, key) => {
+        {listOfQuestion.map((value, key) => {
           return (
             <div className="Question" key={value.ID}>
-              <div className="question_body">{value.Text}</div>
+              <div className="question_body">{value.reference.Text}</div>
               <select
                 value={answers[value.ID]}
                 onChange={(e) => handleAnswerChange(value.ID, e.target.value)}
@@ -191,7 +187,7 @@ function SubRequirement() {
           );
         })}
       </div>
-      {listOfReferenceQuestion.length > 0 && (
+      {listOfQuestion.length > 0 && (
         <div className="submit-container">
           <button className="submit-button" onClick={handleSubmit}>
             Submit Response

@@ -35,7 +35,7 @@ function Requirement() {
       setLoaded(true);
     }
   }, [instanceID, loaded, requirement_id]);
-  
+
   useEffect(() => {
     const enumValues = {
       Exploration: 1,
@@ -54,7 +54,8 @@ function Requirement() {
               withCredentials: true,
             })
             .then(async (response) => {
-              const filteredSubRequirements = response.data.filter((subRequirement) =>
+              const filteredSubRequirements = response.data.filter(
+                (subRequirement) =>
                   enumValues[subRequirement.Class] <=
                   enumValues[res.data["Class"]]
               );
@@ -134,12 +135,71 @@ function Requirement() {
                 {value.OriginalQuestion}
               </div>
               {value.stats ? (
-                <div className="requirement_stats">
-                  Total Questions: {value.stats.totalQuestions}
-                  <br />
-                  Answered: {value.stats.totalAnswered}
-                  <br />
-                  Unanswered: {value.stats.totalUnanswered}
+                <div>
+                  <div className="requirement_stats">
+                    Total Questions: {value.stats.totalQuestions}
+                    <br />
+                    Answered: {value.stats.totalAnswered}
+                    <br />
+                    Unanswered: {value.stats.totalUnanswered}
+                  </div>
+
+                  {value.stats.totalQuestions > 0 && (
+                    <div className="bar-container">
+                      <div
+                        className="bar yes"
+                        style={{
+                          width: `${
+                            (value.stats.answerCounts.Yes /
+                              value.stats.totalQuestions) *
+                            100
+                          }%`,
+                        }}
+                      >
+                        {value.stats.answerCounts.Yes > 0 &&
+                          `Yes: ${value.stats.answerCounts.Yes}`}
+                      </div>
+                      <div
+                        className="bar no"
+                        style={{
+                          width: `${
+                            (value.stats.answerCounts.No /
+                              value.stats.totalQuestions) *
+                            100
+                          }%`,
+                        }}
+                      >
+                        {value.stats.answerCounts.No > 0 &&
+                          `No: ${value.stats.answerCounts.No}`}
+                      </div>
+                      <div
+                        className="bar dont-apply"
+                        style={{
+                          width: `${
+                            (value.stats.answerCounts["Don't Apply"] /
+                              value.stats.totalQuestions) *
+                            100
+                          }%`,
+                        }}
+                      >
+                        {value.stats.answerCounts["Don't Apply"] > 0 &&
+                          `Don't Apply: ${value.stats.answerCounts["Don't Apply"]}`}
+                      </div>
+                      <div
+                        className="bar unanswered"
+                        style={{
+                          width: `${
+                            (value.stats.totalUnanswered /
+                              value.stats.totalQuestions) *
+                            100
+                          }%`,
+                        }}
+                      >
+                        {value.stats.totalUnanswered > 0 &&
+                          `Unanswered: ${value.stats.totalUnanswered}`}
+                      </div>
+                    </div>
+                  )}
                 </div>
               ) : (
                 <div className="requirement_stats error">

@@ -231,6 +231,46 @@
   color: black;
 }
 
+/*Anwsers state bar*/
+.bar-container {
+  display: flex;
+  width: 80%; /* Reduzir a largura total do container */
+  height: 20px; /* Diminuir a altura das barras */
+  background-color: lightgray;
+  color: black;
+  font-weight: bold;
+  text-align: center;
+  margin: 0 auto; /* Centralizar o container */
+  border-radius: 10px; /* Arredondar os cantos do container */
+  overflow: hidden; /* Garantir que as barras respeitem o arredondamento dos cantos do container */
+}
+
+.bar {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap; /* Prevent text from wrapping */
+}
+
+.yes {
+  background-color: rgba(45, 186, 14, 0.932);
+}
+
+.no {
+  background-color: rgb(241, 62, 62);
+}
+
+.dont-apply {
+  background-color: rgb(241, 241, 51);
+}
+
+.unanswered {
+  background-color: lightgray;
+}
+
+
+
 /* login.css */
 
 /* Style for the Login page */

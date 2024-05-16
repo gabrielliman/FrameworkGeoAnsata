@@ -18,7 +18,7 @@ module.exports = [
         "Sections",
         [
           { Title: "5", Description: "Estudos Técnicos", FrameworkID: 1 },
-          { Title: "3", Description: "Seção 3", FrameworkID: 1 },
+          { Title: "3", Description: "Exploração e Sondagens, Técnicas de Amostragem e Dados", FrameworkID: 1 },
         ],
         {}
       );
@@ -26,13 +26,23 @@ module.exports = [
       // Insert data for Subsections
       await queryInterface.bulkInsert(
         "SubSections",
-        [{ Title: "5", Description: "ESG", SectionID: 1 }],
+        [
+          { Title: "5", Description: "ESG", SectionID: 1 },
+          { Title: "1", Description: "Exploração", SectionID: 2 },
+          { Title: "2", Description: "Técnicas de sondagem", SectionID: 2 },
+          { Title: "3", Description: "Método de amostragem, coleta, captura e armazenamento", SectionID: 2 },
+          { Title: "4", Description: "Preparação e análise de amostras", SectionID: 2 },
+          { Title: "5", Description: "Governança da Amostragem", SectionID: 2 },
+          { Title: "6", Description: "Controle e Garantia de Qualidade (QAQC)", SectionID: 2 },
+          { Title: "7", Description: "Densidade, densidade in-situ", SectionID: 2 },
+        ],
         {}
       );
 
       await queryInterface.bulkInsert(
         "Requirements",
         [
+          //Secao 5 Subsecao 5
           { Title: "i", OriginalText: "", SubSectionID: 1 },
           { Title: "ii", OriginalText: "", SubSectionID: 1 },
           { Title: "iii", OriginalText: "", SubSectionID: 1 },
@@ -41,6 +51,49 @@ module.exports = [
           { Title: "vi", OriginalText: "", SubSectionID: 1 },
           { Title: "vii", OriginalText: "", SubSectionID: 1 },
           { Title: "viii", OriginalText: "", SubSectionID: 1 },
+          //Secao 3 Subsecao 1
+          { Title: "i", OriginalText: "", SubSectionID: 2 },
+          { Title: "ii", OriginalText: "", SubSectionID: 2 },
+          { Title: "iii", OriginalText: "", SubSectionID: 2 },
+          { Title: "iv", OriginalText: "", SubSectionID: 2 },
+          { Title: "v", OriginalText: "", SubSectionID: 2 },
+          { Title: "vi", OriginalText: "", SubSectionID: 2 },
+          { Title: "vii", OriginalText: "", SubSectionID: 2 },
+          { Title: "viii", OriginalText: "", SubSectionID: 2 },
+          //Secao 3 Subsecao 2
+          { Title: "i", OriginalText: "", SubSectionID: 3 },
+          { Title: "ii", OriginalText: "", SubSectionID: 3 },
+          { Title: "iii", OriginalText: "", SubSectionID: 3 },
+          { Title: "iv", OriginalText: "", SubSectionID: 3 },
+          { Title: "v", OriginalText: "", SubSectionID: 3 },
+          //Secao 3 Subsecao 3
+          { Title: "i", OriginalText: "", SubSectionID: 4 },
+          { Title: "ii", OriginalText: "", SubSectionID: 4 },
+          { Title: "iii", OriginalText: "", SubSectionID: 4 },
+          { Title: "iv", OriginalText: "", SubSectionID: 4 },
+          { Title: "v", OriginalText: "", SubSectionID: 4 },
+          { Title: "vi", OriginalText: "", SubSectionID: 4 },
+          { Title: "vii", OriginalText: "", SubSectionID: 4 },
+          { Title: "viii", OriginalText: "", SubSectionID: 4 },
+          //Secao 3 Subsecao 4
+          { Title: "i", OriginalText: "", SubSectionID: 5 },
+          { Title: "ii", OriginalText: "", SubSectionID: 5 },
+          //Secao 3 Subsecao 5
+          { Title: "i", OriginalText: "", SubSectionID: 6 },
+          { Title: "ii", OriginalText: "", SubSectionID: 6 },
+          { Title: "iii", OriginalText: "", SubSectionID: 6 },
+          { Title: "iv", OriginalText: "", SubSectionID: 6 },
+          //Secao 3 Subsecao 6
+          { Title: "i", OriginalText: "", SubSectionID: 7 },
+          { Title: "ii", OriginalText: "", SubSectionID: 7 },
+          { Title: "iii", OriginalText: "", SubSectionID: 7 },
+          { Title: "iv", OriginalText: "", SubSectionID: 7 },
+          { Title: "v", OriginalText: "", SubSectionID: 7 },
+          //Secao 3 Subsecao 7
+          { Title: "i", OriginalText: "", SubSectionID: 8 },
+          { Title: "ii", OriginalText: "", SubSectionID: 8 },
+          { Title: "iii", OriginalText: "", SubSectionID: 8 },
+          { Title: "iv", OriginalText: "", SubSectionID: 8 },
         ],
         {}
       );
