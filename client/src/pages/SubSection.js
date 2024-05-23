@@ -97,14 +97,14 @@ function SubSection() {
     <div>
       <div className="solo_SubSection">
         <div className="subsection_page_title">
-          SubSection: {subsectionObject.Title}
+          SubSeção: {subsectionObject.Title}
         </div>
         <div className="subsection_page_body">
           {subsectionObject.Description}
         </div>
       </div>
       <div>
-        <div className="sub_type">Requirements:</div>
+        <div className="sub_type">Requisitos:</div>
         {listOfRequirement.map((value, key) => {
           return (
             <div
@@ -118,13 +118,69 @@ function SubSection() {
               <div className="requirement_body">{value.OriginalText}</div>
               {value.stats ? (
                 <div className="requirement_stats">
-                  Number of SubRequirements: {value.stats.totalSubRequirements}
+                  Número de SubRequisitos: {value.stats.totalSubRequirements}
                   <br />
-                  Total Questions: {value.stats.totalQuestions}
+                  Número de Perguntas: {value.stats.totalQuestions}
                   <br />
-                  Answered: {value.stats.totalAnswered}
+                  Respondidas: {value.stats.totalAnswered}
                   <br />
-                  Unanswered: {value.stats.totalUnanswered}
+                  Não Respondidas: {value.stats.totalUnanswered}
+                  {value.stats.totalQuestions > 0 && (
+                    <div className="bar-container">
+                      <div
+                        className="bar yes"
+                        style={{
+                          width: `${
+                            (value.stats.answerCounts.Yes /
+                              value.stats.totalQuestions) *
+                            100
+                          }%`,
+                        }}
+                      >
+                        {value.stats.answerCounts.Yes > 0 &&
+                          `Sim: ${value.stats.answerCounts.Yes}`}
+                      </div>
+                      <div
+                        className="bar no"
+                        style={{
+                          width: `${
+                            (value.stats.answerCounts.No /
+                              value.stats.totalQuestions) *
+                            100
+                          }%`,
+                        }}
+                      >
+                        {value.stats.answerCounts.No > 0 &&
+                          `Não: ${value.stats.answerCounts.No}`}
+                      </div>
+                      <div
+                        className="bar dont-apply"
+                        style={{
+                          width: `${
+                            (value.stats.answerCounts["Don't Apply"] /
+                              value.stats.totalQuestions) *
+                            100
+                          }%`,
+                        }}
+                      >
+                        {value.stats.answerCounts["Don't Apply"] > 0 &&
+                          `Não se Aplica: ${value.stats.answerCounts["Don't Apply"]}`}
+                      </div>
+                      <div
+                        className="bar unanswered"
+                        style={{
+                          width: `${
+                            (value.stats.totalUnanswered /
+                              value.stats.totalQuestions) *
+                            100
+                          }%`,
+                        }}
+                      >
+                        {value.stats.totalUnanswered > 0 &&
+                          `Não Respondidas: ${value.stats.totalUnanswered}`}
+                      </div>
+                    </div>
+                  )}
                 </div>
               ) : (
                 <div className="requirement_stats error">

@@ -25,7 +25,7 @@ function Login() {
         if (response.data.confirmation) {
           setTimeout(() => {
             navigate("/");
-          }, 500); // Navigate after 2 seconds
+          }, 500);
         }
       });
   };

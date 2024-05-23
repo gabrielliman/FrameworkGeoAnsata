@@ -111,13 +111,13 @@ function Requirement() {
     <div>
       <div className="solo_Requirement">
         <div className="requirement_page_title">
-          Requirement: {requirementObject.Title}
+          Requisito: {requirementObject.Title}
         </div>
         <div className="requirement_page_body">
           {requirementObject.OriginalText}
         </div>
       </div>
-      <div className="sub_type">SubRequirements:</div>
+      <div className="sub_type">SubRequisito:</div>
       <div>
         {listOfSubRequirement.map((value, key) => {
           return (
@@ -137,11 +137,11 @@ function Requirement() {
               {value.stats ? (
                 <div>
                   <div className="requirement_stats">
-                    Total Questions: {value.stats.totalQuestions}
+                    Número de Perguntas: {value.stats.totalQuestions}
                     <br />
-                    Answered: {value.stats.totalAnswered}
+                    Respondidas: {value.stats.totalAnswered}
                     <br />
-                    Unanswered: {value.stats.totalUnanswered}
+                    Não Respondidas: {value.stats.totalUnanswered}
                   </div>
 
                   {value.stats.totalQuestions > 0 && (
@@ -157,7 +157,7 @@ function Requirement() {
                         }}
                       >
                         {value.stats.answerCounts.Yes > 0 &&
-                          `Yes: ${value.stats.answerCounts.Yes}`}
+                          `Sim: ${value.stats.answerCounts.Yes}`}
                       </div>
                       <div
                         className="bar no"
@@ -170,7 +170,7 @@ function Requirement() {
                         }}
                       >
                         {value.stats.answerCounts.No > 0 &&
-                          `No: ${value.stats.answerCounts.No}`}
+                          `Não: ${value.stats.answerCounts.No}`}
                       </div>
                       <div
                         className="bar dont-apply"
@@ -183,7 +183,7 @@ function Requirement() {
                         }}
                       >
                         {value.stats.answerCounts["Don't Apply"] > 0 &&
-                          `Don't Apply: ${value.stats.answerCounts["Don't Apply"]}`}
+                          `Não se Aplica: ${value.stats.answerCounts["Don't Apply"]}`}
                       </div>
                       <div
                         className="bar unanswered"
@@ -196,7 +196,7 @@ function Requirement() {
                         }}
                       >
                         {value.stats.totalUnanswered > 0 &&
-                          `Unanswered: ${value.stats.totalUnanswered}`}
+                          `Não respondidas: ${value.stats.totalUnanswered}`}
                       </div>
                     </div>
                   )}

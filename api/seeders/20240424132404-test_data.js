@@ -8,7 +8,6 @@ module.exports = [
         "Frameworks",
         [
           { Title: "CBRR", Description: "Framework para o Brasil" },
-          { Title: "Teste", Description: "Framework para teste" },
         ],
         {}
       );
@@ -349,45 +348,24 @@ module.exports = [
         "Instances",
         [
           {
-            Title: "teste",
+            Title: "Recurso",
             Description: "descrição",
             Class: "Resource",
             FrameworkID: 1,
             UserID: 1,
           },
           {
-            Title: "teste2",
+            Title: "Exploração",
             Description: "descrição2",
             Class: "Exploration",
             FrameworkID: 1,
             UserID: 1,
           },
           {
-            Title: "teste3",
+            Title: "Reserva",
             Description: "descrição3",
             Class: "Reserve",
             FrameworkID: 1,
-            UserID: 1,
-          },
-          {
-            Title: "teste4",
-            Description: "descrição4",
-            Class: "Reserve",
-            FrameworkID: 1,
-            UserID: 2,
-          },
-          {
-            Title: "teste5",
-            Description: "descrição3",
-            Class: "Reserve",
-            FrameworkID: 2,
-            UserID: 1,
-          },
-          {
-            Title: "teste6",
-            Description: "descrição4",
-            Class: "Reserve",
-            FrameworkID: 2,
             UserID: 1,
           },
         ],

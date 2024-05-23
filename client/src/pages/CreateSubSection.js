@@ -2,12 +2,17 @@ import React from 'react'
 import {Formik, Form, Field, ErrorMessage} from 'formik'
 import * as Yup from 'yup'
 import axios from "axios";
+import { useParams, useNavigate } from "react-router-dom";
 
-//provavelmente nao vou usar isso é so pra aprender initialValues={} onSubmit={} validationSchema={}
-function CreateSurvey() {
+
+function CreateSubSection() {
+    let { section_id } = useParams();
+    let navigate = useNavigate();
+
     const initialValues={
         Title: "",
-        Description:""
+        Description:"",
+        SectionID: section_id
     };
 
     const validationSchema = Yup.object().shape({
@@ -16,32 +21,35 @@ function CreateSurvey() {
     })
 
     const onSubmit = (data) =>{
-        axios.post("http://localhost:3001/surveys",data,{ withCredentials: true }).then((response) => {
+        axios.post("http://localhost:3001/subsections",data,{ withCredentials: true }).then((response) => {
         });
+        setTimeout(() => {
+            navigate('/section/'+section_id)
+        }, 500);
     };
   return (
-    <div className="CreateSurveyPage">
+    <div className="CreatePage">
         <Formik initialValues={initialValues} onSubmit={onSubmit} validationSchema={validationSchema}> 
             <Form className="formContainer">
-                <label> Titúlo </label>
+                <label> Título </label>
                 <ErrorMessage name="Title" element="span"/>
                 <Field
-                    id="inputCreateSurvey"
+                    id="inputCreateSubSection"
                     name="Title"
-                    placeholder="Título da Formulário"
+                    placeholder="Título da Seção"
                 />
                 <label> Descrição </label>
                 <ErrorMessage name="Description" element="span"/>
                 <Field
-                    id="inputCreateSurvey"
+                    id="inputCreateSubSection"
                     name="Description"
-                    placeholder="Descrição da Formulário"
+                    placeholder="Descrição da Seção"
                 />
-                <button type="submit"> Criar Formulário</button>
+                <button type="submit"> Criar SubSeção</button>
             </Form>
         </Formik>
     </div>
   );
 }
 
-export default CreateSurvey
+export default CreateSubSection

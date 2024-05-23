@@ -68,7 +68,7 @@ function Registration() {
             placeholder="Password"
             autoComplete="new-password" // Add autocomplete attribute for password
           />
-          <button type="submit"> Register User</button>
+          <button type="submit"> Registrar Usuário</button>
         </Form>
       </Formik>
       {registrationResponse && (

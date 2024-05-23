@@ -1,6 +1,6 @@
 const express = require('express');
 const app = express();
-const cors =require('cors');
+const cors =require('cors');;
 
 
 
@@ -14,7 +14,6 @@ app.use(cors({
   }));
 require('dotenv').config();
 const db = require('./models')
-const seeders = require('./seeders/20240424132404-test_data');
 //Routers
 
 const userRouter = require("./routes/Users");
@@ -44,28 +43,41 @@ app.use("/answers", answerRouter); //answers
 const resultRouter = require("./routes/Results");
 app.use("/results",resultRouter)
 
+//const seeders = require('./seeders/20240424132404-test_data');
 
 // Sync Dataset
 db.sequelize.sync().then(async () => {
-    // Run down methods first
+
+    const upSeeder = [
+        require('./seeders/frameworks_up.js'),
+        require('./seeders/intro_up.js'),
+        require('./seeders/secao1_up.js'),
+        require('./seeders/secao2_up.js'),
+        require('./seeders/secao3_up.js'),
+        require('./seeders/secao4_up.js'),
+        require('./seeders/secao5_up.js'),
+        require('./seeders/perguntas_up.js'),
+    ];
+    const downSeeder = require('./seeders/test_data_down.js');
+
+    // Run down method first
     try {
-        for (const seeder of seeders) {
-            await seeder.down(db.sequelize.getQueryInterface(), db.Sequelize);
-        }
-        console.log('Seeders rolled back successfully');
+        await downSeeder.down(db.sequelize.getQueryInterface(), db.Sequelize);
+        console.log('Down method executed successfully');
     } catch (error) {
-        console.error('Error rolling back seeders:', error);
+        console.error('Error executing down method:', error);
     }
 
-    // Then run up methods
+    // Then run up method
     try {
-        for (const seeder of seeders) {
+        for (const seeder of upSeeder) {
             await seeder.up(db.sequelize.getQueryInterface(), db.Sequelize);
         }
         console.log('Seeders executed successfully');
     } catch (error) {
         console.error('Error executing seeders:', error);
     }
+
   
     // Start Server
     app.listen(3001, () => {

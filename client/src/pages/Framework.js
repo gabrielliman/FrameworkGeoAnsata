@@ -7,6 +7,7 @@ function Framework() {
   let navigate = useNavigate();
   const [frameworkObject, setFrameworkObject] = useState({});
   const [listOfSection, setlistOfSection] = useState([]);
+  const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
     axios
@@ -42,6 +43,24 @@ function Framework() {
           console.error(error);
         }
       });
+
+      axios
+      .get(`http://localhost:3001/auth/me`, {
+        withCredentials: true,
+      })
+      .then((response) => {
+        setIsAdmin(response.data.IsAdministrator); // Assuming the response includes the admin status
+      })
+      .catch((error) => {
+        if (error.response && error.response.status === 401) {
+          // Token validation error, redirect to login page
+          navigate("/login");
+        } else {
+          // Other errors, handle as needed
+          console.error(error);
+        }
+      });
+
   }, [framework_id, navigate]);
 
 /*   const handleReturn = () => {
@@ -55,7 +74,7 @@ function Framework() {
         <div className="framework_page_body">{frameworkObject.Description}</div>
       </div>
       <div>
-        <div className="sub_type">Sections:</div>
+        <div className="sub_type">Seções:</div>
         {listOfSection.map((value, key) => {
           return (
             <div
@@ -70,6 +89,17 @@ function Framework() {
             </div>
           );
         })}
+      <div>{isAdmin}</div> 
+      {isAdmin && (
+        <div>
+          <div
+            className="createContainer"
+            onClick={() => navigate(`/createsection/${framework_id}`)}
+          >
+            + Section
+          </div>
+        </div>
+      )}
       </div>
       <div>
 {/*         <button className="return-button" onClick={handleReturn}>

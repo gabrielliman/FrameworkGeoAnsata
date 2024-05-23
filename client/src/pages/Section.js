@@ -8,6 +8,8 @@ function Section() {
 
   const [sectionObject, setSectionObject] = useState({});
   const [listOfSubSection, setListOfSubSection] = useState([]);
+  const [isAdmin, setIsAdmin] = useState(false);
+
 
   useEffect(() => {
     axios
@@ -47,6 +49,24 @@ function Section() {
           console.error(error);
         }
       });
+
+      axios
+      .get(`http://localhost:3001/auth/me`, {
+        withCredentials: true,
+      })
+      .then((response) => {
+        setIsAdmin(response.data.IsAdministrator); // Assuming the response includes the admin status
+      })
+      .catch((error) => {
+        if (error.response && error.response.status === 401) {
+          // Token validation error, redirect to login page
+          navigate("/login");
+        } else {
+          // Other errors, handle as needed
+          console.error(error);
+        }
+      });
+
   }, [section_id, navigate]);
 
   const handleReturn = () => {
@@ -56,10 +76,10 @@ function Section() {
   return (
     <div>
       <div className="solo_Section">
-        <div className="section_page_title">Section: {sectionObject.Title}</div>
+        <div className="section_page_title">{sectionObject.Title}</div>
         <div className="section_page_body">{sectionObject.Description}</div>
       </div>
-      <div className="sub_type">SubSections:</div>
+      <div className="sub_type">Sub Seção:</div>
       <div>
         {listOfSubSection.map((value, key) => {
           return (
@@ -75,6 +95,15 @@ function Section() {
             </div>
           );
         })}
+      {isAdmin && (
+        <div>
+          <div
+            className="createContainer"
+            onClick={() => navigate(`/createsubsection/${section_id}`)}
+          >
+            + SubSection
+          </div>
+        </div>)}
       </div>
       <div className="button-container">
         <button className="return-button" onClick={handleReturn}>

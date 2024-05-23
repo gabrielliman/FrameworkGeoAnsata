@@ -163,12 +163,12 @@ function SubRequirement() {
     return (
     <div>
       <div className="solo_SubRequirement">
-        <div className="subrequirement_page_title">SubRequirement: {subrequirementObject.Title}</div>
+        <div className="subrequirement_page_title">SubRequisito: {subrequirementObject.Title}</div>
         <div className="subrequirement_page_body">
           {subrequirementObject.OriginalQuestion}
         </div>
       </div>
-      <div className="sub_type">Questions:</div>
+      <div className="sub_type">Perguntas:</div>
       <div>
         {listOfQuestion.map((value, key) => {
           return (
@@ -178,10 +178,10 @@ function SubRequirement() {
                 value={answers[value.ID]}
                 onChange={(e) => handleAnswerChange(value.ID, e.target.value)}
               >
-                <option value="">Select an option</option>
-                <option value="Yes">Yes</option>
-                <option value="No">No</option>
-                <option value="Don't Apply">Don't Apply</option>
+                <option value="">Selecione uma opção</option>
+                <option value="Yes">Sim</option>
+                <option value="No">Não</option>
+                <option value="Don't Apply">Não se Aplica</option>
               </select>
             </div>
           );
@@ -190,7 +190,7 @@ function SubRequirement() {
       {listOfQuestion.length > 0 && (
         <div className="submit-container">
           <button className="submit-button" onClick={handleSubmit}>
-            Submit Response
+            Enviar Resposta
           </button>
         </div>
       )}
@@ -204,7 +204,7 @@ function SubRequirement() {
           onClick={goToPreviousSubRequirement}
           style={{ visibility: showPreviousButton ? "visible" : "hidden" }}
         >
-          Previous
+          Anterior
         </button>
         <button className="return-button" onClick={handleReturn}>
           Return
@@ -214,7 +214,7 @@ function SubRequirement() {
           onClick={goToNextSubRequirement}
           style={{ visibility: showNextButton ? "visible" : "hidden" }}
         >
-          Next
+          Próximo
         </button>
       </div>
     </div>

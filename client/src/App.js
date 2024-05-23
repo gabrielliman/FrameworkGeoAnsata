@@ -8,11 +8,16 @@ import Requirement from './pages/Requirement';
 import SubRequirement from './pages/SubRequirement';
 
 
-/* import CreateSurvey from './pages/CreateSurvey';
- */
+
+
 import Registration from './pages/Registration'
 import Login from './pages/Login';
+
+
 import CreateInstance from './pages/CreateInstance';
+import CreateSection from './pages/CreateSection';
+import CreateSubSection from './pages/CreateSubSection';
+import CreateFramework from './pages/CreateFramework'
 
 function App() {
   return(<div className="App">
@@ -34,6 +39,9 @@ function App() {
     <Route path="/requirement/:requirement_id" exact element={<Requirement />}></Route>
     <Route path="/subrequirement/:subrequirement_id" exact element={<SubRequirement />}></Route>
     <Route path="/createinstance/:framework_id" exact element={<CreateInstance />}></Route>
+    <Route path="/createsection/:framework_id" exact element={<CreateSection />}></Route>
+    <Route path="/createsubsection/:section_id" exact element={<CreateSubSection />}></Route>
+    <Route path="/createframework" exact element={<CreateFramework />}></Route>
 
 
     <Route path="/login" exact element={<Login />}></Route>

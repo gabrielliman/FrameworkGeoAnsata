@@ -2,9 +2,12 @@ import React from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import axios from "axios";
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from "react-router-dom";
+
 
 function CreateInstance() {
+    let navigate = useNavigate();
+
     let { framework_id } = useParams();
     const initialValues = {
         Title: "",
@@ -27,10 +30,13 @@ function CreateInstance() {
             .catch((error) => {
                 // Optionally, handle errors, show error message, etc.
             });
+            setTimeout(() => {
+                navigate(`/`);
+            }, 500); 
     };
 
     return (
-        <div className="CreateInstancePage">
+        <div className="CreatePage">
             <Formik initialValues={initialValues} onSubmit={onSubmit} validationSchema={validationSchema}>
                 <Form className="formContainer">
                     <label htmlFor="inputCreateTitle">Título</label>

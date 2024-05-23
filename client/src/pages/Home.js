@@ -6,6 +6,8 @@ function Home() {
   const [listOfFrameworks, setListOfFrameworks] = useState([]);
   const [listOfInstances, setListOfInstances] = useState([]);
   const [selectedFramework, setSelectedFramework] = useState(null);
+  const [isAdmin, setIsAdmin] = useState(false);
+
 
   let navigate = useNavigate();
 
@@ -24,6 +26,24 @@ function Home() {
           console.error(error);
         }
       });
+
+      axios
+      .get(`http://localhost:3001/auth/me`, {
+        withCredentials: true,
+      })
+      .then((response) => {
+        setIsAdmin(response.data.IsAdministrator); // Assuming the response includes the admin status
+      })
+      .catch((error) => {
+        if (error.response && error.response.status === 401) {
+          // Token validation error, redirect to login page
+          navigate("/login");
+        } else {
+          // Other errors, handle as needed
+          console.error(error);
+        }
+      });
+
   }, [navigate]);
 
   const handleClickFramework = (frameworkId) => {
@@ -52,7 +72,7 @@ function Home() {
 
   return (
     <div>
-      <div className="home_page">Home Page</div>
+      <div className="home_page">Página Inicial</div>
       <div className="sub_type">Frameworks:</div>
       {listOfFrameworks.map((value, key) => {
         return (
@@ -91,15 +111,24 @@ function Home() {
             )}
             {selectedFramework === value.ID && (
               <div
-                className="createInstanceContainer"
+                className="createContainer"
                 onClick={() => handleClickCreate(value.ID)}
               >
-                <div className="createInstance">+Criar nova instância</div>
+                <div className="createInstance">+ Criar nova instância</div>
               </div>
             )}
           </div>
         );
       })}
+        {isAdmin && (
+        <div>
+          <div
+            className="createContainer"
+            onClick={() => navigate(`/createframework`)}
+          >
+            + Framework
+          </div>
+        </div>)}
     </div>
   );
 }

@@ -3,9 +3,8 @@ const router = express.Router();
 const { Users } = require("../models");
 const bcrypt = require("bcrypt");
 const { Op } = require('sequelize');
-
-
-const {sign} = require('jsonwebtoken')
+const {sign} = require('jsonwebtoken');
+const { validateToken } = require("../middlewares/AuthMiddlewares");
 
 
 router.get("/:frameworkId/:userId", async (req, res) => {
@@ -61,7 +60,7 @@ router.post("/login", async (req, res) => {
     }
 
     //JWT
-    const acessToken = sign({Username: user.Username, ID: user.ID, Email: user.Email},secretOrPrivateKey=process.env.SECRET_KEY, {expiresIn: "15m"});
+    const acessToken = sign({Username: user.Username, ID: user.ID, Email: user.Email, Admin: user.IsAdministrator},secretOrPrivateKey=process.env.SECRET_KEY);
     res.cookie("accessToken", acessToken,{
       maxAge: 1000*60*60*24*30,
       httpOnly: true
@@ -72,6 +71,24 @@ router.post("/login", async (req, res) => {
   } catch (error) {
     console.error("Error logging in:", error);
     return res.json({ error: "Internal server error" });
+  }
+});
+
+router.get("/me", validateToken, async (req, res) => {
+  try {
+    const userId = req.user.ID;
+    const user = await Users.findByPk(userId, {
+      attributes: ["Username", "Email", "IsAdministrator"],
+    });
+
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    res.json(user);
+  } catch (error) {
+    console.error("Error fetching user info:", error);
+    return res.status(500).json({ error: "Internal server error" });
   }
 });
 
