@@ -5,7 +5,7 @@ module.exports = {
     // Insert data for Sections
     await queryInterface.bulkInsert(
       "Sections",
-      [{ Title: "5", Description: "Estudos Técnicos", FrameworkID: 1 }],
+      [{ Title: "Seção 5", Description: "Estudos Técnicos", FrameworkID: 1 }],
       {}
     );
 

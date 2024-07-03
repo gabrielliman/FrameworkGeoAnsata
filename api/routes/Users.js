@@ -74,6 +74,16 @@ router.post("/login", async (req, res) => {
   }
 });
 
+
+router.post("/logout", async (req, res) => {
+  try{
+  res.clearCookie("accessToken");
+  res.json({ message: "Logged out successfully" });
+}
+catch(error){
+  console.error("Error Logging out")
+}});
+
 router.get("/me", validateToken, async (req, res) => {
   try {
     const userId = req.user.ID;

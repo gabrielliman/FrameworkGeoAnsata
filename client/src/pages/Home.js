@@ -8,7 +8,6 @@ function Home() {
   const [selectedFramework, setSelectedFramework] = useState(null);
   const [isAdmin, setIsAdmin] = useState(false);
 
-
   let navigate = useNavigate();
 
   useEffect(() => {
@@ -27,7 +26,7 @@ function Home() {
         }
       });
 
-      axios
+    axios
       .get(`http://localhost:3001/auth/me`, {
         withCredentials: true,
       })
@@ -43,9 +42,10 @@ function Home() {
           console.error(error);
         }
       });
-
   }, [navigate]);
 
+
+  
   const handleClickFramework = (frameworkId) => {
     setSelectedFramework(frameworkId);
 
@@ -53,8 +53,49 @@ function Home() {
       .get(`http://localhost:3001/instance/${frameworkId}`, {
         withCredentials: true,
       })
-      .then((response) => {
-        setListOfInstances(response.data);
+      .then(async (response) => {
+        if (!response.data) {
+          console.error("No data in response from instance API");
+          return;
+        }
+
+        const instancesWithStatsPromises = response.data.map(
+          async (instance) => {
+            try {
+              const statsResponse = await axios.get(
+                `http://localhost:3001/results/instances/${instance.ID}/questions-answers`,
+                { withCredentials: true }
+              );
+              if (!statsResponse.data) {
+                console.error(
+                  `No data in stats response for instance ID ${instance.ID}`
+                );
+                instance.stats = { error: true };
+              } else {
+                instance.stats = statsResponse.data;
+              }
+            } catch (error) {
+              console.error(
+                `Error fetching question and answer statistics for instance ID ${instance.ID}:`,
+                error
+              );
+              instance.stats = { error: true };
+            }
+            return instance;
+          }
+        );
+
+        try {
+          const instanceWithStats = await Promise.all(
+            instancesWithStatsPromises
+          );
+          setListOfInstances(instanceWithStats);
+        } catch (error) {
+          console.error(
+            "Error resolving instances with stats promises:",
+            error
+          );
+        }
       })
       .catch((error) => {
         console.error("Error fetching instances:", error);
@@ -104,6 +145,83 @@ function Home() {
                         <div className="instanceClass">
                           Classe: {instance.Class}
                         </div>
+
+                        {instance.stats ? (
+                          <div>
+                            <div className="requirement_stats">
+                              Número de Perguntas:{" "}
+                              {instance.stats.totalQuestions}
+                              <br />
+                              Respondidas: {instance.stats.totalAnswered}
+                              <br />
+                              Não Respondidas: {instance.stats.totalUnanswered}
+                            </div>
+
+                            {instance.stats.totalQuestions > 0 && (
+                              <div className="bar-container">
+                                <div
+                                  className="bar yes"
+                                  style={{
+                                    width: `${
+                                      (instance.stats.answerCounts.Yes /
+                                        instance.stats.totalQuestions) *
+                                      100
+                                    }%`,
+                                  }}
+                                >
+                                  {instance.stats.answerCounts.Yes > 0 &&
+                                    `Sim: ${instance.stats.answerCounts.Yes}`}
+                                </div>
+                                <div
+                                  className="bar no"
+                                  style={{
+                                    width: `${
+                                      (instance.stats.answerCounts.No /
+                                        instance.stats.totalQuestions) *
+                                      100
+                                    }%`,
+                                  }}
+                                >
+                                  {instance.stats.answerCounts.No > 0 &&
+                                    `Não: ${instance.stats.answerCounts.No}`}
+                                </div>
+                                <div
+                                  className="bar dont-apply"
+                                  style={{
+                                    width: `${
+                                      (instance.stats.answerCounts[
+                                        "Don't Apply"
+                                      ] /
+                                        instance.stats.totalQuestions) *
+                                      100
+                                    }%`,
+                                  }}
+                                >
+                                  {instance.stats.answerCounts["Don't Apply"] >
+                                    0 &&
+                                    `Não se Aplica: ${instance.stats.answerCounts["Don't Apply"]}`}
+                                </div>
+                                <div
+                                  className="bar unanswered"
+                                  style={{
+                                    width: `${
+                                      (instance.stats.totalUnanswered /
+                                        instance.stats.totalQuestions) *
+                                      100
+                                    }%`,
+                                  }}
+                                >
+                                  {instance.stats.totalUnanswered > 0 &&
+                                    `Não respondidas: ${instance.stats.totalUnanswered}`}
+                                </div>
+                              </div>
+                            )}
+                          </div>
+                        ) : (
+                          <div className="requirement_stats error">
+                            Error retrieving statistics
+                          </div>
+                        )}
                       </div>
                     )
                 )}
@@ -120,7 +238,7 @@ function Home() {
           </div>
         );
       })}
-        {isAdmin && (
+      {isAdmin && (
         <div>
           <div
             className="createContainer"
@@ -128,7 +246,8 @@ function Home() {
           >
             + Framework
           </div>
-        </div>)}
+        </div>
+      )}
     </div>
   );
 }

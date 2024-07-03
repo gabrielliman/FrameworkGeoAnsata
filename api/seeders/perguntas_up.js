@@ -27,7 +27,6 @@ module.exports = {
         { ReferenceQuestionID: 3, SubRequirementID: 1 },
         { ReferenceQuestionID: 1, SubRequirementID: 2 },
         { ReferenceQuestionID: 4, SubRequirementID: 2 },
-        { ReferenceQuestionID: 5, SubRequirementID: 2 },
         { ReferenceQuestionID: 1, SubRequirementID: 3 },
         { ReferenceQuestionID: 2, SubRequirementID: 3 },
         { ReferenceQuestionID: 3, SubRequirementID: 3 },
@@ -43,7 +42,15 @@ module.exports = {
         { ReferenceQuestionID: 1, SubRequirementID: 7 },
         { ReferenceQuestionID: 2, SubRequirementID: 7 },
         { ReferenceQuestionID: 3, SubRequirementID: 7 },
-
+        { ReferenceQuestionID: 1, SubRequirementID: 8 },
+        { ReferenceQuestionID: 2, SubRequirementID: 8 },
+        { ReferenceQuestionID: 6, SubRequirementID: 9 },
+        { ReferenceQuestionID: 7, SubRequirementID: 9 },
+        { ReferenceQuestionID: 1, SubRequirementID: 10 },
+        { ReferenceQuestionID: 3, SubRequirementID: 11 },
+        { ReferenceQuestionID: 1, SubRequirementID: 12 },
+        { ReferenceQuestionID: 2, SubRequirementID: 13 },
+        { ReferenceQuestionID: 6, SubRequirementID: 14 },
       ],
       {}
     );
