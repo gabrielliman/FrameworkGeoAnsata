@@ -14,36 +14,35 @@ app.use(cors({
   }));
 require('dotenv').config();
 const db = require('./models')
-//Routers
 
+//Routers
 const userRouter = require("./routes/Users");
-app.use("/auth",userRouter) //Users
+app.use("/auth",userRouter)
 const instanceRouter = require("./routes/Instances");
-app.use("/instance",instanceRouter) //Instances
+app.use("/instance",instanceRouter)
 
 const frameworkRouter = require('./routes/Frameworks');
-app.use("/frameworks", frameworkRouter); //Framework
+app.use("/frameworks", frameworkRouter);
 const sectionRouter = require('./routes/Sections');
-app.use("/sections", sectionRouter); //Section
+app.use("/sections", sectionRouter);
 const subSectionRouter = require('./routes/SubSections');
-app.use("/subsections", subSectionRouter); //SubSection
+app.use("/subsections", subSectionRouter);
 const requirementRouter = require('./routes/Requirements');
-app.use("/requirements", requirementRouter); //Requirement
+app.use("/requirements", requirementRouter);
 const subRequirementRouter = require('./routes/SubRequirements');
-app.use("/subrequirements", subRequirementRouter); //SubRequirement
+app.use("/subrequirements", subRequirementRouter);
 
 const questionRouter = require('./routes/Questions');
-app.use("/questions", questionRouter); //Questions
+app.use("/questions", questionRouter);
 const referenceQuestionRouter = require('./routes/ReferenceQuestions');
-app.use("/referencequestions", referenceQuestionRouter); //ReferenceQuestions
+app.use("/referencequestions", referenceQuestionRouter);
 const answerRouter = require('./routes/Answers');
-app.use("/answers", answerRouter); //answers
+app.use("/answers", answerRouter);
 
 
 const resultRouter = require("./routes/Results");
 app.use("/results",resultRouter)
 
-//const seeders = require('./seeders/20240424132404-test_data');
 
 // Sync Dataset
 db.sequelize.sync().then(async () => {

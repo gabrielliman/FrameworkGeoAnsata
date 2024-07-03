@@ -22,7 +22,7 @@ module.exports = (sequelize, DataTypes) => {
     Requirements.hasMany(models.SubRequirements, {
       onDelete: "cascade",
     });
-    Requirements.belongsTo(models.SubSections); // Adiciona a associação belongsTo a SubSections
+    Requirements.belongsTo(models.SubSections);
   };
 
   return Requirements;

@@ -3,7 +3,15 @@ const router = express.Router();
 const { SubRequirements } = require("../models");
 const { validateToken } = require("../middlewares/AuthMiddlewares");
 
-// Get SubRequirements by Requirement
+/**
+ * Rota para obter todos os SubRequisitos associados a um Requisito específico.
+ * 
+ * @param {Object} req - O objeto de solicitação (request) contendo o ID do Requisito.
+ * @param {Object} res - O objeto de resposta (response) que retorna um array de SubRequisitos relacionados ao Requisito.
+ * 
+ * @returns {Array} - Um array contendo todos os SubRequisitos relacionados ao Requisito especificado.
+ *                   Retorna erro interno do servidor em caso de falha na consulta.
+ */
 router.get("/:requirementId", validateToken, async (req, res) => {
   try {
     const requirementId = req.params.requirementId;
@@ -19,7 +27,15 @@ router.get("/:requirementId", validateToken, async (req, res) => {
   }
 });
 
-// Get SubRequirement by Id
+/**
+ * Rota para obter um SubRequisito pelo seu ID.
+ * 
+ * @param {Object} req - O objeto de solicitação (request) contendo o ID do SubRequisito.
+ * @param {Object} res - O objeto de resposta (response) que retorna o SubRequisito encontrado pelo ID.
+ * 
+ * @returns {Object} - Um objeto representando o SubRequisito encontrado pelo ID.
+ *                    Retorna erro interno do servidor em caso de falha na consulta.
+ */
 router.get("/byId/:id", validateToken, async (req, res) => {
   try {
     const id = req.params.id;
@@ -31,7 +47,15 @@ router.get("/byId/:id", validateToken, async (req, res) => {
   }
 });
 
-// Create SubRequirement
+/**
+ * Rota para criar um novo SubRequisito.
+ * 
+ * @param {Object} req - O objeto de solicitação (request) contendo os dados do novo SubRequisito a ser criado.
+ * @param {Object} res - O objeto de resposta (response) que retorna os dados do SubRequisito criado.
+ * 
+ * @returns {Object} - Um objeto representando os dados do SubRequisito recém-criado.
+ *                    Retorna erro interno do servidor em caso de falha na criação.
+ */
 router.post("/", validateToken, async (req, res) => {
   try {
     const subrequirements = req.body;

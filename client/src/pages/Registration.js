@@ -48,7 +48,7 @@ function Registration() {
             name="Username"
             placeholder="Username"
             autoFocus
-            autoComplete="username" // Add autocomplete attribute for username
+            autoComplete="username" 
           />
           <label> Email </label>
           <ErrorMessage name="Email" element="span" />
@@ -57,7 +57,7 @@ function Registration() {
             type="email"
             name="Email"
             placeholder="Email"
-            autoComplete="email" // Add autocomplete attribute for email
+            autoComplete="email" 
           />
           <label> Password </label>
           <ErrorMessage name="Password" element="span" />
@@ -66,7 +66,7 @@ function Registration() {
             type="password"
             name="Password"
             placeholder="Password"
-            autoComplete="new-password" // Add autocomplete attribute for password
+            autoComplete="new-password" 
           />
           <button type="submit"> Registrar Usuário</button>
         </Form>

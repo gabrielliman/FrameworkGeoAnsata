@@ -25,7 +25,7 @@ module.exports = (sequelize, DataTypes) => {
     Instances.hasMany(models.Answers, {
       onDelete: "cascade",
     });
-    Instances.belongsTo(models.Frameworks); // Adiciona a associação belongsTo a Frameworks
+    Instances.belongsTo(models.Frameworks);
   };
 
   return Instances;

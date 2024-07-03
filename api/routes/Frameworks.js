@@ -3,7 +3,14 @@ const router = express.Router();
 const { Frameworks } = require("../models");
 const { validateToken } = require("../middlewares/AuthMiddlewares");
 
-// Get All Frameworks
+/**
+ * Rota para obter todos os Frameworks.
+ * 
+ * @param {Object} req - O objeto de solicitação (request).
+ * @param {Object} res - O objeto de resposta (response).
+ * 
+ * @returns {Object} - Lista de todos os frameworks ou mensagem de erro.
+ */
 router.get("/", validateToken, async (req, res) => {
   try {
     const allFrameworks = await Frameworks.findAll();
@@ -14,7 +21,14 @@ router.get("/", validateToken, async (req, res) => {
   }
 });
 
-// Get Framework by id
+/**
+ * Rota para obter um Framework por id.
+ * 
+ * @param {Object} req - O objeto de solicitação (request).
+ * @param {Object} res - O objeto de resposta (response).
+ * 
+ * @returns {Object} - Framework correspondente ao Id fornecido ou mensagem de erro.
+ */
 router.get("/byId/:id", validateToken, async (req, res) => {
   try {
     const id = req.params.id;
@@ -26,7 +40,14 @@ router.get("/byId/:id", validateToken, async (req, res) => {
   }
 });
 
-// Create Framework
+/**
+ * Rota para criar um Framework.
+ * 
+ * @param {Object} req - O objeto de solicitação (request).
+ * @param {Object} res - O objeto de resposta (response).
+ * 
+ * @returns {Object} - O framework criado ou mensagem de erro.
+ */
 router.post("/", validateToken, async (req, res) => {
   try {
     const framework = req.body;

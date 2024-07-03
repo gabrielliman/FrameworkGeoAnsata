@@ -20,7 +20,7 @@ module.exports = (sequelize, DataTypes) => {
     SubSections.hasMany(models.Requirements, {
       onDelete: "cascade",
     });
-    SubSections.belongsTo(models.Sections); // Adiciona a associação belongsTo a Sections
+    SubSections.belongsTo(models.Sections);
   };
 
   return SubSections;

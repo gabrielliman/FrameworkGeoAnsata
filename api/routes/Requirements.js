@@ -3,7 +3,14 @@ const router = express.Router();
 const { Requirements } = require("../models");
 const { validateToken } = require("../middlewares/AuthMiddlewares");
 
-// Get Requirements by SubSection
+/**
+ * Rota para obter requisitos por SubSection.
+ * 
+ * @param {Object} req - O objeto de solicitação (request).
+ * @param {Object} res - O objeto de resposta (response).
+ * 
+ * @returns {Object} - Lista de requisitos filtrados por SubSection ou mensagem de erro.
+ */
 router.get("/:subsectionId", validateToken, async (req, res) => {
   try {
     const subsectionId = req.params.subsectionId;
@@ -19,7 +26,14 @@ router.get("/:subsectionId", validateToken, async (req, res) => {
   }
 });
 
-// Get Requirement by Id
+/**
+ * Rota para obter um requisito por id.
+ * 
+ * @param {Object} req - O objeto de solicitação (request).
+ * @param {Object} res - O objeto de resposta (response).
+ * 
+ * @returns {Object} - Requisito correspondente ao Id fornecido ou mensagem de erro.
+ */
 router.get("/byId/:id", validateToken, async (req, res) => {
   try {
     const id = req.params.id;
@@ -31,7 +45,14 @@ router.get("/byId/:id", validateToken, async (req, res) => {
   }
 });
 
-// Create Requirement
+/**
+ * Rota para criar um requisito.
+ * 
+ * @param {Object} req - O objeto de solicitação (request).
+ * @param {Object} res - O objeto de resposta (response).
+ * 
+ * @returns {Object} - O requisito criado ou mensagem de erro.
+ */
 router.post("/", validateToken, async (req, res) => {
   try {
     const requirements = req.body;

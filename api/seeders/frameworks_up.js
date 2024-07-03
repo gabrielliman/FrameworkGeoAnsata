@@ -11,7 +11,7 @@ module.exports =
         ],
         {}
       );
-      await queryInterface.bulkInsert(
+/*       await queryInterface.bulkInsert(
         "Instances",
         [
           {
@@ -37,6 +37,6 @@ module.exports =
           },
         ],
         {}
-      );
+      ); */
     },
   };

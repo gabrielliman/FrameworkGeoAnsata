@@ -3,7 +3,14 @@ const router = express.Router();
 const { ReferenceQuestions } = require("../models");
 const { validateToken } = require("../middlewares/AuthMiddlewares");
 
-// Get All ReferenceQuestions
+/**
+ * Rota para obter todas as ReferenceQuestions.
+ * 
+ * @param {Object} req - O objeto de solicitação (request).
+ * @param {Object} res - O objeto de resposta (response).
+ * 
+ * @returns {Object} - Lista de todas as ReferenceQuestions ou mensagem de erro.
+ */
 router.get("/", validateToken, async (req, res) => {
   try {
     const allReferenceQuestions = await ReferenceQuestions.findAll();
@@ -14,7 +21,14 @@ router.get("/", validateToken, async (req, res) => {
   }
 });
 
-// Get ReferenceQuestion by id
+/**
+ * Rota para obter uma ReferenceQuestion por id.
+ * 
+ * @param {Object} req - O objeto de solicitação (request).
+ * @param {Object} res - O objeto de resposta (response).
+ * 
+ * @returns {Object} - ReferenceQuestion correspondente ao Id fornecido ou mensagem de erro.
+ */
 router.get("/byId/:id", validateToken, async (req, res) => {
   try {
     const id = req.params.id;
@@ -26,7 +40,14 @@ router.get("/byId/:id", validateToken, async (req, res) => {
   }
 });
 
-// Create ReferenceQuestion
+/**
+ * Rota para criar uma ReferenceQuestion.
+ * 
+ * @param {Object} req - O objeto de solicitação (request).
+ * @param {Object} res - O objeto de resposta (response).
+ * 
+ * @returns {Object} - A ReferenceQuestion criada ou mensagem de erro.
+ */
 router.post("/", validateToken, async (req, res) => {
   try {
     const referencequestion = req.body;
@@ -38,7 +59,14 @@ router.post("/", validateToken, async (req, res) => {
   }
 });
 
-// Get ReferenceQuestions by Questions list
+/**
+ * Rota para obter ReferenceQuestions por lista de IDs.
+ * 
+ * @param {Object} req - O objeto de solicitação (request).
+ * @param {Object} res - O objeto de resposta (response).
+ * 
+ * @returns {Object} - Lista de ReferenceQuestions filtradas pelos IDs fornecidos ou mensagem de erro.
+ */
 router.post("/byIds", validateToken, async (req, res) => {
   try {
     const requestData = req.body;

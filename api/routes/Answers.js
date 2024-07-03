@@ -3,7 +3,14 @@ const router = express.Router();
 const { Answers } = require("../models");
 const { validateToken } = require("../middlewares/AuthMiddlewares");
 
-// Get Answers by Instance and Question
+/**
+ * Rota para obter respostas por Instância e Pergunta.
+ * 
+ * @param {Object} req - O objeto de solicitação (request).
+ * @param {Object} res - O objeto de resposta (response).
+ * 
+ * @returns {Object} - Lista de respostas filtradas por Instância e Pergunta ou mensagem de erro.
+ */
 router.get("/:instanceId/:questionId", validateToken, async (req, res) => {
   try {
     const instanceId = req.params.instanceId;
@@ -21,7 +28,14 @@ router.get("/:instanceId/:questionId", validateToken, async (req, res) => {
   }
 });
 
-// Get Answer by Id
+/**
+ * Rota para obter resposta por Id.
+ * 
+ * @param {Object} req - O objeto de solicitação (request).
+ * @param {Object} res - O objeto de resposta (response).
+ * 
+ * @returns {Object} - Resposta correspondente ao Id fornecido ou mensagem de erro.
+ */
 router.get("/byId/:id", validateToken, async (req, res) => {
   try {
     const id = req.params.id;
@@ -33,7 +47,14 @@ router.get("/byId/:id", validateToken, async (req, res) => {
   }
 });
 
-// Create Answer
+/**
+ * Rota para criar ou atualizar respostas.
+ * 
+ * @param {Object} req - O objeto de solicitação (request).
+ * @param {Object} res - O objeto de resposta (response).
+ * 
+ * @returns {Object} - Lista de respostas criadas ou atualizadas ou mensagem de erro.
+ */
 router.post("/", validateToken, async (req, res) => {
   try {
     const answersList = req.body; // Recebe a lista de objetos de entrada

@@ -68,7 +68,6 @@ function SubSection() {
             requirementsWithStatsPromises
           );
 
-          // Filter requirements based on subrequirements class
           const filteredRequirements = requirementsWithStats.filter(
             (requirement) => {
               if (

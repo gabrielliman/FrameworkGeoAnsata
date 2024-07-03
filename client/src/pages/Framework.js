@@ -6,10 +6,11 @@ function Framework() {
   let { framework_id } = useParams();
   let navigate = useNavigate();
   const [frameworkObject, setFrameworkObject] = useState({});
-  const [listOfSection, setlistOfSection] = useState([]);
+  const [listOfSection, setListOfSection] = useState([]);
   const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
+    // Fetch framework details by ID
     axios
       .get(`http://localhost:3001/frameworks/byId/${framework_id}`, {
         withCredentials: true,
@@ -19,32 +20,34 @@ function Framework() {
       })
       .catch((error) => {
         if (error.response && error.response.status === 401) {
-          // Token validation error, redirect to login page
+          // Handle unauthorized access: redirect to login page
           navigate("/login");
         } else {
-          // Other errors, handle as needed
+          // Handle other errors
           console.error(error);
         }
       });
 
+    // Fetch sections by framework ID
     axios
       .get(`http://localhost:3001/sections/${framework_id}`, {
         withCredentials: true,
       })
       .then((response) => {
-        setlistOfSection(response.data);
+        setListOfSection(response.data);
       })
       .catch((error) => {
         if (error.response && error.response.status === 401) {
-          // Token validation error, redirect to login page
+          // Handle unauthorized access: redirect to login page
           navigate("/login");
         } else {
-          // Other errors, handle as needed
+          // Handle other errors
           console.error(error);
         }
       });
 
-      axios
+    // Check user admin status
+    axios
       .get(`http://localhost:3001/auth/me`, {
         withCredentials: true,
       })
@@ -53,19 +56,15 @@ function Framework() {
       })
       .catch((error) => {
         if (error.response && error.response.status === 401) {
-          // Token validation error, redirect to login page
+          // Handle unauthorized access: redirect to login page
           navigate("/login");
         } else {
-          // Other errors, handle as needed
+          // Handle other errors
           console.error(error);
         }
       });
 
   }, [framework_id, navigate]);
-
-/*   const handleReturn = () => {
-    navigate("/");
-  }; */
 
   return (
     <div>
@@ -89,22 +88,17 @@ function Framework() {
             </div>
           );
         })}
-      <div>{isAdmin}</div> 
-      {isAdmin && (
-        <div>
-          <div
-            className="createContainer"
-            onClick={() => navigate(`/createsection/${framework_id}`)}
-          >
-            + Section
+        <div>{isAdmin}</div>
+        {isAdmin && (
+          <div>
+            <div
+              className="createContainer"
+              onClick={() => navigate(`/createsection/${framework_id}`)}
+            >
+              + Section
+            </div>
           </div>
-        </div>
-      )}
-      </div>
-      <div>
-{/*         <button className="return-button" onClick={handleReturn}>
-          Return
-        </button> */}
+        )}
       </div>
     </div>
   );

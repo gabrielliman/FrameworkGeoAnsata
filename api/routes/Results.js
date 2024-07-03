@@ -15,21 +15,26 @@ const {
   ReferenceQuestions,
 } = require("../models");
 
-// GET route to fetch all questions of subrequirements for a specific requirement and instance along with answer statistics
+/**
+ * Rota para obter todas as perguntas e respostas dos subrequisitos de um requisito específico e instância, juntamente com as estatísticas de respostas.
+ * 
+ * @param {Object} req - O objeto de solicitação (request).
+ * @param {Object} res - O objeto de resposta (response).
+ * 
+ * @returns {Object} - Estatísticas das respostas e lista de perguntas ou mensagem de erro.
+ */
 router.get(
   "/requirements/:requirementID/instances/:instanceID/questions-answers",
   async (req, res) => {
     const { requirementID, instanceID } = req.params;
 
     try {
-      // Fetch the instance to get its class
       const instance = await Instances.findByPk(instanceID);
 
       if (!instance) {
         return res.status(404).json({ message: "Instance not found" });
       }
 
-      // Fetch the requirement and include related subrequirements, questions, and answers
       const requirement = await Requirements.findByPk(requirementID, {
         include: {
           model: SubRequirements,
@@ -41,13 +46,13 @@ router.get(
                   1
               ),
             },
-          }, // Filter subrequirements by instance class
+          },
           include: {
             model: Questions,
             include: {
               model: Answers,
               where: { InstanceID: instanceID },
-              required: false, // Include all questions even if they have no answers
+              required: false,
             },
           },
         },
@@ -57,7 +62,6 @@ router.get(
         return res.status(404).json({ message: "Requirement not found" });
       }
 
-      // Initialize statistics
       let totalQuestions = 0;
       let totalAnswered = 0;
       let totalUnanswered = 0;
@@ -68,7 +72,6 @@ router.get(
       };
       let questions = [];
 
-      // Process the data to get the statistics
       if (
         requirement.SubRequirements &&
         requirement.SubRequirements.length > 0
@@ -76,7 +79,7 @@ router.get(
         requirement.SubRequirements.forEach((subReq) => {
           subReq.Questions.forEach((question) => {
             totalQuestions += 1;
-            const answer = question.Answers[0]; // Assuming one answer per question per instance
+            const answer = question.Answers[0];
 
             if (answer) {
               totalAnswered += 1;
@@ -109,27 +112,33 @@ router.get(
   }
 );
 
+/**
+ * Rota para obter todas as perguntas e respostas de um subrequisito específico e instância, juntamente com as estatísticas de respostas.
+ * 
+ * @param {Object} req - O objeto de solicitação (request).
+ * @param {Object} res - O objeto de resposta (response).
+ * 
+ * @returns {Object} - Estatísticas das respostas e lista de perguntas ou mensagem de erro.
+ */
 router.get(
   "/subrequirements/:subrequirementID/instances/:instanceID/questions-answers",
   async (req, res) => {
     const { subrequirementID, instanceID } = req.params;
 
     try {
-      // Fetch the instance to get its class
       const instance = await Instances.findByPk(instanceID);
 
       if (!instance) {
         return res.status(404).json({ message: "Instance not found" });
       }
 
-      // Fetch the requirement and include related subrequirements, questions, and answers
       const subrequirement = await SubRequirements.findByPk(subrequirementID, {
         include: {
           model: Questions,
           include: {
             model: Answers,
             where: { InstanceID: instanceID },
-            required: false, // Include all questions even if they have no answers
+            required: false,
           },
         },
       });
@@ -138,7 +147,6 @@ router.get(
         return res.status(404).json({ message: "Requirement not found" });
       }
 
-      // Initialize statistics
       let totalQuestions = 0;
       let totalAnswered = 0;
       let totalUnanswered = 0;
@@ -149,11 +157,11 @@ router.get(
       };
       let questions = [];
 
-      // Process the data to get the statistics
+
       if (subrequirement.Questions && subrequirement.Questions.length > 0) {
         subrequirement.Questions.forEach((question) => {
           totalQuestions += 1;
-          const answer = question.Answers[0]; // Assuming one answer per question per instance
+          const answer = question.Answers[0];
 
           if (answer) {
             totalAnswered += 1;
@@ -169,7 +177,6 @@ router.get(
         });
       }
 
-      // Prepare response
       const responseStats = {
         totalQuestions: totalQuestions,
         totalAnswered: totalAnswered,
@@ -186,18 +193,24 @@ router.get(
   }
 );
 
+/**
+ * Rota para obter todas as perguntas e respostas de uma instância específica, juntamente com as estatísticas de respostas.
+ * 
+ * @param {Object} req - O objeto de solicitação (request).
+ * @param {Object} res - O objeto de resposta (response).
+ * 
+ * @returns {Object} - Estatísticas das respostas e lista de perguntas ou mensagem de erro.
+ */
 router.get("/instances/:instanceID/questions-answers", async (req, res) => {
   const { instanceID } = req.params;
 
   try {
-    // Fetch the instance to get its class
     const instance = await Instances.findByPk(instanceID);
 
     if (!instance) {
       return res.status(404).json({ message: "Instance not found" });
     }
 
-    // Fetch the requirement and include related subrequirements, questions, and answers
     const framework = await Frameworks.findByPk(instance.FrameworkID, {
       include: {
         model: Sections,
@@ -220,13 +233,13 @@ router.get("/instances/:instanceID/questions-answers", async (req, res) => {
                     ) + 1
                   ),
                 },
-              }, // Filter subrequirements by instance class
+              },
               include: {
                 model: Questions,
                 include: {
                   model: Answers,
                   where: { InstanceID: instanceID },
-                  required: false, // Include all questions even if they have no answers
+                  required: false,
                 },
               },
             },
@@ -239,7 +252,6 @@ router.get("/instances/:instanceID/questions-answers", async (req, res) => {
       return res.status(404).json({ message: "Requirement not found" });
     }
 
-    // Initialize statistics
     let totalQuestions = 0;
     let totalAnswered = 0;
     let totalUnanswered = 0;
@@ -250,15 +262,13 @@ router.get("/instances/:instanceID/questions-answers", async (req, res) => {
     };
     let questions = [];
 
-    // Process the data to get the statistics
-    //  framework.Sections.SubSections.Requirements.SubRequirements
     framework.Sections.forEach((section) => {
       section.SubSections.forEach((subSection) => {
         subSection.Requirements.forEach((requirement) => {
           requirement.SubRequirements.forEach((subReq) => {
             subReq.Questions.forEach((question) => {
               totalQuestions += 1;
-              const answer = question.Answers[0]; // Assuming one answer per question per instance
+              const answer = question.Answers[0];
 
               if (answer) {
                 totalAnswered += 1;
@@ -276,7 +286,6 @@ router.get("/instances/:instanceID/questions-answers", async (req, res) => {
         });
       });
     });
-    // Prepare response
     const responseStats = {
       totalQuestions: totalQuestions,
       totalAnswered: totalAnswered,
@@ -292,7 +301,15 @@ router.get("/instances/:instanceID/questions-answers", async (req, res) => {
   }
 });
 
-
+/**
+ * Rota para obter detalhes de uma instância específica, incluindo seu framework associado,
+ * seções, subseções, requisitos, subrequisitos, perguntas e respostas relacionadas.
+ * 
+ * @param {Object} req - O objeto de solicitação (request).
+ * @param {Object} res - O objeto de resposta (response).
+ * 
+ * @returns {Object} - Detalhes da instância ou mensagem de erro em caso de falha na consulta.
+ */
 router.get('/instance-details/:instanceId', async (req, res) => {
   const instanceId = req.params.instanceId;
 

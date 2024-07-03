@@ -20,7 +20,7 @@ module.exports = (sequelize, DataTypes) => {
     Sections.hasMany(models.SubSections, {
       onDelete: "cascade",
     });
-    Sections.belongsTo(models.Frameworks); // Adiciona a associação belongsTo a Frameworks
+    Sections.belongsTo(models.Frameworks);
   };
 
   return Sections;

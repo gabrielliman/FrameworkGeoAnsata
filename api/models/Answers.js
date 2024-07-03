@@ -17,8 +17,8 @@ module.exports = (sequelize, DataTypes) => {
   });
 
   Answers.associate = (models) => {
-    Answers.belongsTo(models.Questions); // Adiciona a associação belongsTo a Questions
-    Answers.belongsTo(models.Instances); // Adiciona a associação belongsTo a Instances
+    Answers.belongsTo(models.Questions);
+    Answers.belongsTo(models.Instances);
   };
 
   return Answers;

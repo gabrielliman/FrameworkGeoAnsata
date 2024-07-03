@@ -3,7 +3,14 @@ const router = express.Router();
 const { Instances } = require("../models");
 const { validateToken } = require("../middlewares/AuthMiddlewares");
 
-// Get Instances by Framework && User
+/**
+ * Rota para obter instâncias por Framework e Usuário.
+ *
+ * @param {Object} req - O objeto de solicitação (request).
+ * @param {Object} res - O objeto de resposta (response).
+ *
+ * @returns {Object} - Lista de instâncias filtradas por Framework e Usuário ou mensagem de erro.
+ */
 router.get("/:frameworkId", validateToken, async (req, res) => {
   try {
     const userId = req.user.ID;
@@ -21,7 +28,14 @@ router.get("/:frameworkId", validateToken, async (req, res) => {
   }
 });
 
-// Get Instance by Id
+/**
+ * Rota para obter uma instância por id.
+ *
+ * @param {Object} req - O objeto de solicitação (request).
+ * @param {Object} res - O objeto de resposta (response).
+ *
+ * @returns {Object} - Instância correspondente ao Id fornecido ou mensagem de erro.
+ */
 router.get("/byId/:id", validateToken, async (req, res) => {
   try {
     const id = req.params.id;
@@ -33,7 +47,14 @@ router.get("/byId/:id", validateToken, async (req, res) => {
   }
 });
 
-// Create Instance
+/**
+ * Rota para criar uma instância.
+ *
+ * @param {Object} req - O objeto de solicitação (request).
+ * @param {Object} res - O objeto de resposta (response).
+ *
+ * @returns {Object} - A instância criada ou mensagem de erro.
+ */
 router.post("/", validateToken, async (req, res) => {
   try {
     const userId = req.user.ID;

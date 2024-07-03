@@ -15,8 +15,8 @@ module.exports = (sequelize, DataTypes) => {
     Questions.hasMany(models.Answers, {
       onDelete: "cascade",
     });
-    Questions.belongsTo(models.SubRequirements); // Adiciona a associação belongsTo a SubRequirements
-    Questions.belongsTo(models.ReferenceQuestions); // Adiciona a associação belongsTo a ReferenceQuestions
+    Questions.belongsTo(models.SubRequirements);
+    Questions.belongsTo(models.ReferenceQuestions);
   };
 
   return Questions;

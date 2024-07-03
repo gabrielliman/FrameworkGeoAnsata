@@ -11,6 +11,7 @@ function Home() {
   let navigate = useNavigate();
 
   useEffect(() => {
+    // Fetch all frameworks
     axios
       .get("http://localhost:3001/frameworks", { withCredentials: true })
       .then((response) => {
@@ -18,14 +19,15 @@ function Home() {
       })
       .catch((error) => {
         if (error.response && error.response.status === 401) {
-          // Token validation error, redirect to another page
-          navigate("/login"); // Redirect to login page or any other page
+          // Handle unauthorized access: redirect to login page
+          navigate("/login");
         } else {
-          // Other errors, handle as needed
+          // Handle other errors
           console.error(error);
         }
       });
 
+    // Check user admin status
     axios
       .get(`http://localhost:3001/auth/me`, {
         withCredentials: true,
@@ -35,17 +37,16 @@ function Home() {
       })
       .catch((error) => {
         if (error.response && error.response.status === 401) {
-          // Token validation error, redirect to login page
+          // Handle unauthorized access: redirect to login page
           navigate("/login");
         } else {
-          // Other errors, handle as needed
+          // Handle other errors
           console.error(error);
         }
       });
   }, [navigate]);
 
-
-  
+  // Fetch instances and their statistics for a selected framework
   const handleClickFramework = (frameworkId) => {
     setSelectedFramework(frameworkId);
 
@@ -102,11 +103,13 @@ function Home() {
       });
   };
 
+  // Handle click on an instance to navigate to its details
   const handleClickInstance = (frameworkId, instanceID) => {
     sessionStorage.setItem("selectedInstanceID", instanceID);
     navigate(`/framework/${frameworkId}`);
   };
 
+  // Handle click to create a new instance for a selected framework
   const handleClickCreate = (frameworkId) => {
     navigate(`/createinstance/${frameworkId}`);
   };
@@ -129,7 +132,6 @@ function Home() {
               <div>
                 {listOfInstances.map(
                   (instance) =>
-                    // Check if the instance's frameworkId matches the selected frameworkId
                     instance.FrameworkID === value.ID && (
                       <div
                         key={instance.ID}
@@ -149,8 +151,7 @@ function Home() {
                         {instance.stats ? (
                           <div>
                             <div className="requirement_stats">
-                              Número de Perguntas:{" "}
-                              {instance.stats.totalQuestions}
+                              Número de Perguntas: {instance.stats.totalQuestions}
                               <br />
                               Respondidas: {instance.stats.totalAnswered}
                               <br />
@@ -219,7 +220,7 @@ function Home() {
                           </div>
                         ) : (
                           <div className="requirement_stats error">
-                            Error retrieving statistics
+                            Erro ao recuperar estatísticas
                           </div>
                         )}
                       </div>

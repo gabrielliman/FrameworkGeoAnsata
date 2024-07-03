@@ -16,7 +16,7 @@ function Requirement() {
     if (storedInstanceId) {
       setInstanceId(storedInstanceId);
     } else {
-      //navigate("/");
+      navigate("/");
     }
   }, [navigate]);
 

@@ -25,35 +25,31 @@ function SubRequirement() {
       if (storedInstanceId) {
         setInstanceId(storedInstanceId);
       } else {
-        navigate("/"); // Redirect to home page if instance ID is not stored
+        navigate("/");
       }
 
       const { listOfSubRequirement, currentIndex } = location.state;
       setCurrentIndex(currentIndex);
       const currentSubRequirement = listOfSubRequirement[currentIndex];
 
-      // Fetch subrequirement object
       const subRequirementResponse = await axios.get(
         `http://localhost:3001/subrequirements/byId/${currentSubRequirement.ID}`,
         { withCredentials: true }
       );
       setSubRequirementObject(subRequirementResponse.data);
 
-      // Fetch questions for the subrequirement
       const questionsResponse = await axios.get(
         `http://localhost:3001/questions/${currentSubRequirement.ID}`,
         { withCredentials: true }
       );
       const questions = questionsResponse.data;
 
-      // Initialize answers state
       const initialAnswers = {};
       questions.forEach((question) => {
-        initialAnswers[question.ID] = ""; // Default answer is empty string
+        initialAnswers[question.ID] = "";
       });
       setAnswers(initialAnswers);
 
-      // Fetch and attach reference questions to each question
       for (const question of questions) {
         const referenceResponse = await axios.post(
           "http://localhost:3001/referencequestions/byIds",
@@ -64,7 +60,6 @@ function SubRequirement() {
         question.reference = referenceQuestion;
       }
 
-      // Set list of questions with reference questions attached
       setListOfQuestion(questions);
 
     } catch (error) {
@@ -77,14 +72,12 @@ function SubRequirement() {
 
   fetchData();
 
-  // Check if the "Previous" button should be shown
   if (currentIndex > 0) {
     setShowPreviousButton(true);
   } else {
     setShowPreviousButton(false);
   }
 
-  // Check if the "Next" button should be shown
   if (currentIndex < location.state.listOfSubRequirement.length - 1) {
     setShowNextButton(true);
   } else {
@@ -102,13 +95,11 @@ function SubRequirement() {
 
   // Handler to submit answers
   const handleSubmit = () => {
-    // Check if any answer is empty
     const isEmpty = Object.values(answers).some((answer) => answer === "");
     if (isEmpty) {
       setWarning("Please fill in all the answers before submitting.");
     } else {
       setWarning("");
-      // Construct submission JSON with required field names
       const submission = Object.entries(answers).map(
         ([questionId, answer]) => ({
           QuestionID: questionId,
@@ -159,10 +150,11 @@ function SubRequirement() {
     }
   };
 
-  // Rest of your code
     return (
     <div>
       <div className="solo_SubRequirement">
+        <div>Essa página não é mais necessária na nova definição do projeto</div>
+        <div>Na nova implementação um requisito deve redirecionar direto para as perguntas</div>
         <div className="subrequirement_page_title">SubRequisito: {subrequirementObject.Title}</div>
         <div className="subrequirement_page_body">
           {subrequirementObject.OriginalQuestion}

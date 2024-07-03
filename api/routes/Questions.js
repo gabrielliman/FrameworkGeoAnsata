@@ -3,7 +3,14 @@ const router = express.Router();
 const { Questions } = require("../models");
 const { validateToken } = require("../middlewares/AuthMiddlewares");
 
-// Get Questions by SubRequirement
+/**
+ * Rota para obter perguntas por SubRequirement.
+ * 
+ * @param {Object} req - O objeto de solicitação (request).
+ * @param {Object} res - O objeto de resposta (response).
+ * 
+ * @returns {Object} - Lista de perguntas filtradas por SubRequirement ou mensagem de erro.
+ */
 router.get("/:subrequirementId", validateToken, async (req, res) => {
   try {
     const subrequirementId = req.params.subrequirementId;
@@ -19,7 +26,14 @@ router.get("/:subrequirementId", validateToken, async (req, res) => {
   }
 });
 
-// Get Questions by ReferenceQuestion
+/**
+ * Rota para obter perguntas por ReferenceQuestion.
+ * 
+ * @param {Object} req - O objeto de solicitação (request).
+ * @param {Object} res - O objeto de resposta (response).
+ * 
+ * @returns {Object} - Lista de perguntas filtradas por ReferenceQuestion ou mensagem de erro.
+ */
 router.get(
   "/byReferenceQuestion/:referencequestionId",
   validateToken,
@@ -39,7 +53,14 @@ router.get(
   }
 );
 
-// Get Question by Id
+/**
+ * Rota para obter uma pergunta por id.
+ * 
+ * @param {Object} req - O objeto de solicitação (request).
+ * @param {Object} res - O objeto de resposta (response).
+ * 
+ * @returns {Object} - Pergunta correspondente ao Id fornecido ou mensagem de erro.
+ */
 router.get("/byId/:id", validateToken, async (req, res) => {
   try {
     const id = req.params.id;
@@ -51,7 +72,14 @@ router.get("/byId/:id", validateToken, async (req, res) => {
   }
 });
 
-// Create Question
+/**
+ * Rota para criar uma pergunta.
+ * 
+ * @param {Object} req - O objeto de solicitação (request).
+ * @param {Object} res - O objeto de resposta (response).
+ * 
+ * @returns {Object} - A pergunta criada ou mensagem de erro.
+ */
 router.post("/", validateToken, async (req, res) => {
   try {
     const question = req.body;
